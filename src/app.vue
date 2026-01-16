@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ActivityBar from "./features/activity-bar/activity-bar.vue";
+import ActivityBar from "./features/activity-bar/components/index.vue";
 </script>
 
 <template>

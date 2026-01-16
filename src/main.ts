@@ -1,4 +1,8 @@
+import {
+  createPinia,
+} from "pinia";
 import PrimeVue from "primevue/config";
+import ToolTip from "primevue/tooltip";
 import {
   createApp,
 } from "vue";
@@ -8,12 +12,19 @@ import {
 } from "./shared/utils/prime-vue-config";
 import "./style.css";
 
-const App = createApp(app);
+const pinia = createPinia();
+const vueApp = createApp(app);
+
+vueApp.use(pinia);
 
 // Prime Vue Configs
-App.use(
+vueApp.use(
   PrimeVue,
   PrimeVueConfig,
 );
+vueApp.directive(
+  "tooltip",
+  ToolTip,
+);
 
-App.mount("#app");
+vueApp.mount("#app");
