@@ -1,6 +1,6 @@
 <template>
   <Card
-    pt:root:class="w-[55px] h-auto rounded-none"
+    pt:root:class="w-[55px] h-dvh rounded-none"
     pt:body:class="h-dvh px-0 m-0 flex flex-col justify-between gap-4"
     pt:content:class="w-full flex flex-col gap-4 items-center"
     pt:footer:class="w-full flex flex-col gap-4 items-center"
