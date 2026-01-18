@@ -1,33 +1,18 @@
 <script lang="ts" setup>
-import type {
-  ActivityBarItems,
-} from "../types";
-import {
-  IconComponents,
-  IconFile,
-} from "@tabler/icons-vue";
 import {
   useActivitybarStore,
 } from "../store";
+import {
+  ActivityBarList,
+} from "../utils/activity-bar-list";
 
 const activityBarStore = useActivitybarStore();
-
-const ActivityBarList: ActivityBarItems[] = [
-  {
-    title: "Files",
-    Icon: IconFile,
-  },
-  {
-    title: "Components",
-    Icon: IconComponents,
-  },
-];
 </script>
 
 <template>
   <Card
     pt:root:class="w-[55px] h-full rounded-none"
-    pt:body:class="h-full px-0 m-0 flex flex-col justify-between gap-4"
+    pt:body:class="h-full px-0 flex flex-col justify-between gap-4"
     pt:content:class="w-full flex flex-col gap-4 items-center"
   >
     <template #content>
