@@ -2,6 +2,7 @@ import {
   createPinia,
 } from "pinia";
 import PrimeVue from "primevue/config";
+import ToastService from "primevue/toastservice";
 import ToolTip from "primevue/tooltip";
 import {
   createApp,
@@ -26,5 +27,6 @@ vueApp.directive(
   "tooltip",
   ToolTip,
 );
+vueApp.use(ToastService);
 
 vueApp.mount("#app");

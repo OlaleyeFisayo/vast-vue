@@ -23,7 +23,7 @@ async function toggleIcon(node: FileTreeNode) {
 </script>
 
 <template>
-  <section class="w-full">
+  <section class="w-full overflow-hidden">
     <FileTree
       :tree-nodes="TreeNodes"
       :toggle-icon="toggleIcon"
