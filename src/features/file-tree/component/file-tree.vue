@@ -28,7 +28,7 @@ const fileGap = "1rem";
     :style="style"
   >
     <button
-      class="w-full cursor-pointer flex p-0.5 items-center gap-2"
+      class="w-full cursor-pointer flex p-0.5 items-center gap-1"
       @click="toggleIcon(node)"
     >
       <!-- Icon Toggle for Folder Expansion -->
