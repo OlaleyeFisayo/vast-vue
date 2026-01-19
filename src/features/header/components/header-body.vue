@@ -1,3 +1,20 @@
+<script setup lang="ts">
+import {
+  getRootPathBasename,
+} from "@vast/file-explorer";
+import {
+  onBeforeMount,
+  ref,
+} from "vue";
+
+const rootDirectoryName = ref("");
+
+onBeforeMount(async () => {
+  const fileName = await getRootPathBasename();
+  rootDirectoryName.value = fileName;
+});
+</script>
+
 <template>
   <Card
     pt:root:class="w-full h-[55px] rounded-none flex"
@@ -7,7 +24,7 @@
   >
     <template #content>
       <h1 class="text-lg font-bold">
-        @vast/vue
+        {{ rootDirectoryName }}
       </h1>
     </template>
   </Card>
