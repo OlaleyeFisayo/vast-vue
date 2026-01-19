@@ -27,7 +27,7 @@ const cardView = computed(() => {
         <Card
           pt:root:class="max-w-[360px] rounded-none h-full"
           pt:body:class="p-0 h-full"
-          pt:content:class="overflow-y-auto p-1 w-full overflow-x-hidden"
+          pt:content:class="overflow-y-auto p-2 w-full overflow-x-hidden"
         >
           <template
             v-if="cardView"

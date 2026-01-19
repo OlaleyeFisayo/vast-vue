@@ -1,7 +1,9 @@
 import type {
   FileTreeNode,
-} from "@vast/file-explorer/types";
+} from "@vast/file-explorer";
 import {
+  collapseDirectory,
+  expandDirectory,
   getFileTree,
   onFileTreeUpdate,
 } from "@vast/file-explorer";
@@ -11,21 +13,33 @@ import {
 } from "vue";
 
 export function useFileTree() {
-  const FileTree = ref<FileTreeNode[]>([]);
+  const TreeNodes = ref<FileTreeNode[]>([]);
 
   const fetchTree = async () => {
     const data = await getFileTree();
-    FileTree.value = data;
+    TreeNodes.value = data;
+  };
+
+  const expand = async (path: string) => {
+    const data = await expandDirectory(path);
+    TreeNodes.value = data;
+  };
+
+  const collapse = async (path: string) => {
+    const data = await collapseDirectory(path);
+    TreeNodes.value = data;
   };
 
   onBeforeMount(async () => {
-    fetchTree();
-    onFileTreeUpdate(() => {
-      fetchTree();
+    await fetchTree();
+    onFileTreeUpdate(async () => {
+      await fetchTree();
     });
   });
 
   return {
-    FileTree,
+    TreeNodes,
+    collapse,
+    expand,
   };
 }

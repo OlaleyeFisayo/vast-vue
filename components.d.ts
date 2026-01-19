@@ -12,7 +12,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Card: typeof import('primevue/card')['default']
-    Skeleton: typeof import('primevue/skeleton')['default']
     Tree: typeof import('primevue/tree')['default']
   }
   export interface GlobalDirectives {

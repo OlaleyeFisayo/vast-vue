@@ -1,42 +1,58 @@
 <script lang="ts" setup>
 import type {
   FileTreeNode,
-} from "@vast/file-explorer/types";
+} from "@vast/file-explorer";
+import type {
+  StyleValue,
+} from "vue";
 import {
   IconChevronDown,
-  IconChevronUp,
+  IconChevronRight,
 } from "@tabler/icons-vue";
-import {
-  useFileTree,
-} from "../hook/use-file-tree";
 
-type PrimeTreeSlotProps = {
-  node: FileTreeNode;
-  selected: boolean;
-  expanded: boolean;
-};
+const props = defineProps<{
+  treeNodes: FileTreeNode[];
+  toggleIcon: (node: FileTreeNode) => void;
+  class?: string;
+  style?: StyleValue;
+}>();
 
-const {
-  FileTree,
-} = useFileTree();
+const fileGap = "1rem";
 </script>
 
 <template>
-  <Tree
-    :value="FileTree"
-    pt:root:class="p-0 m-0"
-    pt:wrapper:class="p-0 m-0"
-    pt:root-children:class="p-0 m-0 border"
-    pt:node:class="border p-0 m-0"
+  <div
+    v-for="node in treeNodes"
+    :key="node.key"
+    :class="`${props.class}`"
+    :style="style"
   >
-    <template #default="{ node }: PrimeTreeSlotProps">
-      <div class="w-full flex gap-2 border">
-        <template v-if="node.type === 'directory'">
-          <IconChevronUp v-if="node.expanded" />
-          <IconChevronDown v-else />
-        </template>
-        <p>{{ node.name }}</p>
-      </div>
-    </template>
-  </Tree>
+    <button
+      class="w-full cursor-pointer flex p-0.5 items-center gap-2"
+      @click="toggleIcon(node)"
+    >
+      <!-- Icon Toggle for Folder Expansion -->
+      <template
+        v-if="node.type === 'directory'"
+      >
+        <IconChevronDown
+          v-if="node.expanded"
+          :style="{ width: fileGap, height: fileGap }"
+        />
+        <IconChevronRight
+          v-else
+          :style="{ width: fileGap, height: fileGap }"
+        />
+      </template>
+      <p :style="{ marginLeft: node.type === 'file' ? fileGap : '0' }">
+        {{ node.name }}
+      </p>
+    </button>
+    <FileTree
+      v-if="node.type === 'directory' && node.expanded"
+      :tree-nodes="node.children"
+      :toggle-icon="toggleIcon"
+      :style="{ marginLeft: fileGap }"
+    />
+  </div>
 </template>
