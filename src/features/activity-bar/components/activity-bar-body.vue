@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import {
+  VAST_APP_STATES,
+} from "../../../shared/variables";
+import {
   useActivitybarStore,
 } from "../store";
 import {
@@ -21,7 +24,7 @@ const activityBarStore = useActivitybarStore();
         :key="title"
         v-tooltip="{
           value: title,
-          showDelay: 1000,
+          showDelay: VAST_APP_STATES.tooltipShowDelay,
         }"
         :class="`cursor-pointer w-full flex items-center justify-center ${activityBarStore.activityInView === title ? 'border-l-3 border-white text-white' : 'text-gray-500'} hover:text-white`"
         type="button"

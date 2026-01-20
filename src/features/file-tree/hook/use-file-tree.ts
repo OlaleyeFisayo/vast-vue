@@ -30,6 +30,14 @@ export function useFileTree() {
     TreeNodes.value = data;
   };
 
+  const toggleChildDisplayIcon = async (node: FileTreeNode) => {
+    if (node.type === "directory") {
+      if (node.expanded)
+        await collapse(node.absolutePath);
+      else await expand(node.absolutePath);
+    }
+  };
+
   onBeforeMount(async () => {
     await fetchTree();
     onFileTreeUpdate(async () => {
@@ -39,7 +47,7 @@ export function useFileTree() {
 
   return {
     TreeNodes,
-    collapse,
-    expand,
+    fetchTree,
+    toggleChildDisplayIcon,
   };
 }

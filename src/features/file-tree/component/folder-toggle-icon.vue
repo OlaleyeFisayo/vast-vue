@@ -7,7 +7,7 @@ import {
   IconChevronRight,
 } from "@tabler/icons-vue";
 import {
-  fileGap,
+  FILE_TREE_STATES,
 } from "../variables";
 
 defineProps<{
@@ -19,11 +19,11 @@ defineProps<{
   <template v-if="node.type === 'directory'">
     <IconChevronDown
       v-if="node.expanded"
-      :style="{ width: fileGap, height: fileGap }"
+      :style="{ width: FILE_TREE_STATES.iconSize, height: FILE_TREE_STATES.iconSize }"
     />
     <IconChevronRight
       v-else
-      :style="{ width: fileGap, height: fileGap }"
+      :style="{ width: FILE_TREE_STATES.iconSize, height: FILE_TREE_STATES.iconSize }"
     />
   </template>
 </template>

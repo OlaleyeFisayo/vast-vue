@@ -1,32 +1,29 @@
 <script lang="ts" setup>
-import type {
-  FileTreeNode,
-} from "@vast/file-explorer";
 import {
   useFileTree,
 } from "../hook/use-file-tree";
+import CreateFile from "./create-file.vue";
+import CreateFolder from "./create-folder.vue";
+import FileTreeContainerActions from "./file-tree-container-actions.vue";
 import FileTree from "./file-tree.vue";
 
 const {
   TreeNodes,
-  collapse,
-  expand,
+  fetchTree,
+  toggleChildDisplayIcon,
 } = useFileTree();
-
-async function toggleIcon(node: FileTreeNode) {
-  if (node.type === "directory") {
-    if (node.expanded)
-      await collapse(node.absolutePath);
-    else await expand(node.absolutePath);
-  }
-}
 </script>
 
 <template>
-  <section class="w-full overflow-hidden">
-    <FileTree
-      :tree-nodes="TreeNodes"
-      :toggle-icon="toggleIcon"
-    />
-  </section>
+  <main class="w-full overflow-hidden space-y-2">
+    <FileTreeContainerActions :fetch-tree="fetchTree" />
+    <section>
+      <CreateFolder />
+      <FileTree
+        :tree-nodes="TreeNodes"
+        :toggle-icon="toggleChildDisplayIcon"
+      />
+      <CreateFile />
+    </section>
+  </main>
 </template>

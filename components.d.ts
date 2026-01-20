@@ -13,6 +13,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Card: typeof import('primevue/card')['default']
     ContextMenu: typeof import('primevue/contextmenu')['default']
+    InputText: typeof import('primevue/inputtext')['default']
     Toast: typeof import('primevue/toast')['default']
   }
   export interface GlobalDirectives {

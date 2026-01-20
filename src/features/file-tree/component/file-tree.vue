@@ -9,7 +9,7 @@ import {
   ref,
 } from "vue";
 import {
-  fileGap,
+  FILE_TREE_STATES,
 } from "../variables";
 import FileContextMenu from "./file-context-menu.vue";
 import FileIcon from "./file-icon.vue";
@@ -48,7 +48,7 @@ function toggleFileContextMenu(
     >
       <FolderToggleIcon :node="node" />
       <p
-        :style="{ marginLeft: node.type === 'file' ? fileGap : '0' }"
+        :style="{ marginLeft: node.type === 'file' ? FILE_TREE_STATES.fileGap : '0' }"
         class="flex items-center gap-1.5 text-nowrap text-ellipsis"
       >
         <FileIcon :node="node" />
@@ -60,10 +60,9 @@ function toggleFileContextMenu(
       v-if="node.type === 'directory' && node.expanded"
       :tree-nodes="node.children"
       :toggle-icon="toggleIcon"
-      :style="{ marginLeft: fileGap }"
+      :style="{ marginLeft: FILE_TREE_STATES.fileGap }"
     />
   </div>
-  <!-- COntext Menu -->
   <FileContextMenu
     ref="fileContextMenuRef"
     :selected-node="selectedNode"
