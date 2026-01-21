@@ -31,10 +31,6 @@ const {
 
 const fileTreeStore = useFileTreeStore();
 
-function renameItem(node: FileTreeNode) {
-  fileTreeStore.enableRenameMode(node);
-}
-
 function items(): MenuItem[] {
   if (props.selectedNode) {
     const node = props.selectedNode;
@@ -91,7 +87,7 @@ function items(): MenuItem[] {
       },
       {
         label: "Rename",
-        command: () => renameItem(node),
+        command: () => fileTreeStore.enableRenameMode(node),
       },
       {
         label: "Delete",
