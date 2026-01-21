@@ -30,6 +30,7 @@
     "@primeuix/themes": "^2.0.2",
     "@tabler/icons-vue": "^3.36.1",
     "@tailwindcss/vite": "^4.1.18",
+    "@tanstack/vue-query": "^5.92.8",
     "@vast/file-explorer": "file:vast-file-explorer-0.0.0.tgz",
     "pinia": "^3.0.4",
     "primevue": "^4.5.4",

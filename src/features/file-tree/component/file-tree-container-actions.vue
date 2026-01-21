@@ -8,14 +8,14 @@ import {
   VAST_APP_STATES,
 } from "../../../shared/variables";
 import {
+  useGetFileTree,
+} from "../queries";
+import {
   useFileTreeStore,
 } from "../store";
 
-const props = defineProps<{
-  fetchTree: () => void;
-}>();
-
 const fileTreeStore = useFileTreeStore();
+const getFileTree = useGetFileTree();
 
 const fileTreeContainerActions = [
   {
@@ -31,7 +31,7 @@ const fileTreeContainerActions = [
   {
     title: "Refresh Files",
     icon: IconRefresh,
-    action: props.fetchTree,
+    action: () => getFileTree.refetch(),
   },
 ];
 </script>

@@ -1,4 +1,7 @@
 import {
+  VueQueryPlugin,
+} from "@tanstack/vue-query";
+import {
   createPinia,
 } from "pinia";
 import PrimeVue from "primevue/config";
@@ -17,6 +20,9 @@ const pinia = createPinia();
 const vueApp = createApp(app);
 
 vueApp.use(pinia);
+
+// Tanstack stack query
+vueApp.use(VueQueryPlugin);
 
 // Prime Vue Configs
 vueApp.use(

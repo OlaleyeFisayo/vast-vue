@@ -61,7 +61,7 @@ async function handleFolderCreate() {
       <InputText
         ref="inputRef"
         v-model="newFolderName"
-        pt:root:class="p-1 text-sm"
+        pt:root:class="py-0 px-1"
         type="text"
         @blur="resetAndBlur"
         @keydown.enter="handleFolderCreate"

@@ -1,18 +1,9 @@
 <script setup lang="ts">
 import {
-  getRootPathBasename,
-} from "@vast/file-explorer";
-import {
-  onBeforeMount,
-  ref,
-} from "vue";
+  useGetRootPathBasename,
+} from "../queries";
 
-const rootDirectoryName = ref("");
-
-onBeforeMount(async () => {
-  const fileName = await getRootPathBasename();
-  rootDirectoryName.value = fileName;
-});
+const getRootPathBaseName = useGetRootPathBasename();
 </script>
 
 <template>
@@ -24,7 +15,7 @@ onBeforeMount(async () => {
   >
     <template #content>
       <h1 class="text-lg font-bold">
-        {{ rootDirectoryName }}
+        {{ getRootPathBaseName.data }}
       </h1>
     </template>
   </Card>

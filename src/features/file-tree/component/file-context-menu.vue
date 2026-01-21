@@ -6,12 +6,18 @@ import type {
   MenuItem,
 } from "primevue/menuitem";
 import {
-  computed,
+  deleteFile,
+  deleteFolder,
+} from "@vast/file-explorer";
+import {
   ref,
 } from "vue";
 import {
   useClipboard,
 } from "../../../shared/hooks/use-clipboard";
+import {
+  useFileTreeStore,
+} from "../store";
 
 const props = defineProps<{
   selectedNode: FileTreeNode | null;
@@ -23,8 +29,11 @@ const {
   copyToClipboard,
 } = useClipboard();
 
-const items = computed<MenuItem[]>(() => {
+const fileTreeStore = useFileTreeStore();
+
+function items(): MenuItem[] {
   if (props.selectedNode) {
+    const node = props.selectedNode;
     const isDirectory = props.selectedNode.type === "directory";
     const absolutePath = props.selectedNode.absolutePath;
     const relativePath = props.selectedNode.key;
@@ -78,14 +87,20 @@ const items = computed<MenuItem[]>(() => {
       },
       {
         label: "Rename",
+        command: () => fileTreeStore.setRenameData(node),
       },
       {
         label: "Delete",
+        command: async () => {
+          if (node.type === "directory")
+            await deleteFolder(node.absolutePath);
+          else await deleteFile(node.absolutePath);
+        },
       },
     ];
   }
   return [];
-});
+}
 
 function show(event: MouseEvent) {
   contextMenuRef.value.show(event);
@@ -99,6 +114,6 @@ defineExpose({
 <template>
   <ContextMenu
     ref="contextMenuRef"
-    :model="items"
+    :model="items()"
   />
 </template>

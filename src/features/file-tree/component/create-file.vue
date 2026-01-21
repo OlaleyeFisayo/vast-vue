@@ -20,14 +20,14 @@ import {
 const fileTreeStore = useFileTreeStore();
 
 const newFileName = ref("");
-const inputRef = ref<any>(null);
+const createFileRef = ref<any>(null);
 
 watch(
   () => fileTreeStore.createFileMode,
   (isCreating) => {
     if (isCreating) {
       nextTick(() => {
-        inputRef.value?.$el.focus();
+        createFileRef.value?.$el.focus();
       });
     }
   },
@@ -56,9 +56,9 @@ async function handleFileCreate() {
         :style="{ width: FILE_TREE_STATES.iconSize, height: FILE_TREE_STATES.iconSize }"
       />
       <InputText
-        ref="inputRef"
+        ref="createFileRef"
         v-model="newFileName"
-        pt:root:class="p-1 text-sm"
+        pt:root:class="py-0 px-1"
         type="text"
         @blur="resetAndBlur"
         @keydown.enter="handleFileCreate"
