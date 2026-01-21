@@ -1,8 +1,5 @@
 <script lang="ts" setup>
 import {
-  IconFile,
-} from "@tabler/icons-vue";
-import {
   createFile,
 } from "@vast/file-explorer";
 import {
@@ -14,8 +11,10 @@ import {
   useFileTreeStore,
 } from "../store";
 import {
+  dummyFileEntryNodeFile,
   FILE_TREE_STATES,
 } from "../variables";
+import FileEntryIcon from "./file-entry-icon.vue";
 
 const fileTreeStore = useFileTreeStore();
 
@@ -52,9 +51,7 @@ async function handleFileCreate() {
       :style="{ marginLeft: FILE_TREE_STATES.fileGap }"
       class="w-full cursor-pointer flex p-0.5 items-center gap-1"
     >
-      <IconFile
-        :style="{ width: FILE_TREE_STATES.iconSize, height: FILE_TREE_STATES.iconSize }"
-      />
+      <FileEntryIcon :node="dummyFileEntryNodeFile" />
       <InputText
         ref="createFileRef"
         v-model="newFileName"

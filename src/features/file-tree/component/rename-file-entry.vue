@@ -3,11 +3,6 @@ import type {
   FileTreeNode,
 } from "@vast/file-explorer";
 import {
-  IconChevronRight,
-  IconFile,
-  IconFolder,
-} from "@tabler/icons-vue";
-import {
   rename,
 } from "@vast/file-explorer";
 import {
@@ -22,6 +17,8 @@ import {
 import {
   FILE_TREE_STATES,
 } from "../variables";
+import FileEntryIcon from "./file-entry-icon.vue";
+import FolderToggleIcon from "./folder-toggle-icon.vue";
 
 defineProps<{
   node: FileTreeNode;
@@ -61,18 +58,8 @@ onMounted(() => {
     :style="{ marginLeft: node.type === 'file' ? FILE_TREE_STATES.fileGap : '0' }"
     class="w-full cursor-pointer flex p-0.5 items-center gap-1"
   >
-    <IconFile
-      v-if="node.type === 'file'"
-      :style="{ width: FILE_TREE_STATES.iconSize, height: FILE_TREE_STATES.iconSize }"
-    />
-    <template v-else>
-      <IconChevronRight
-        :style="{ width: FILE_TREE_STATES.iconSize, height: FILE_TREE_STATES.iconSize }"
-      />
-      <IconFolder
-        :style="{ width: FILE_TREE_STATES.iconSize, height: FILE_TREE_STATES.iconSize }"
-      />
-    </template>
+    <FolderToggleIcon :node="node" />
+    <FileEntryIcon :node="node" />
     <InputText
       ref="renameRef"
       v-model="newName"

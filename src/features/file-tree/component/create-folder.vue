@@ -1,9 +1,5 @@
 <script lang="ts" setup>
 import {
-  IconChevronRight,
-  IconFolder,
-} from "@tabler/icons-vue";
-import {
   createFolder,
 } from "@vast/file-explorer";
 import {
@@ -15,8 +11,10 @@ import {
   useFileTreeStore,
 } from "../store";
 import {
-  FILE_TREE_STATES,
+  dummyFileEntryNodeFolder,
 } from "../variables";
+import FileEntryIcon from "./file-entry-icon.vue";
+import FolderToggleIcon from "./folder-toggle-icon.vue";
 
 const fileTreeStore = useFileTreeStore();
 
@@ -52,12 +50,8 @@ async function handleFolderCreate() {
     <div
       class="w-full cursor-pointer flex p-0.5 items-center gap-1"
     >
-      <IconChevronRight
-        :style="{ width: FILE_TREE_STATES.iconSize, height: FILE_TREE_STATES.iconSize }"
-      />
-      <IconFolder
-        :style="{ width: FILE_TREE_STATES.iconSize, height: FILE_TREE_STATES.iconSize }"
-      />
+      <FolderToggleIcon :node="dummyFileEntryNodeFolder" />
+      <FileEntryIcon :node="dummyFileEntryNodeFolder" />
       <InputText
         ref="createFolderRef"
         v-model="newFolderName"

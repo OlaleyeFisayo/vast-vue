@@ -9,7 +9,7 @@ import {
 import {
   FILE_TREE_STATES,
 } from "../variables";
-import FileIcon from "./file-icon.vue";
+import FileEntryIcon from "./file-entry-icon.vue";
 import FolderToggleIcon from "./folder-toggle-icon.vue";
 
 defineProps<{
@@ -40,7 +40,7 @@ function toggleIcon(node: FileTreeNode) {
       :style="{ marginLeft: node.type === 'file' ? FILE_TREE_STATES.fileGap : '0' }"
       class="flex items-center gap-1.5 text-nowrap text-ellipsis"
     >
-      <FileIcon :node="node" />
+      <FileEntryIcon :node="node" />
       {{ node.name }}
     </p>
   </button>
