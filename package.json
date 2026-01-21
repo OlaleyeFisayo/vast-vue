@@ -24,14 +24,13 @@
     "lint:fix": "eslint --fix",
     "prepare": "husky",
     "file:remove": "npm remove @vast/file-explorer",
-    "file": "npm run file:remove && npm install vast-file-explorer-0.0.0.tgz"
+    "file": "npm run file:remove && npm install vast-file-explorer-0.0.0.tgz -D"
   },
   "dependencies": {
     "@primeuix/themes": "^2.0.2",
     "@tabler/icons-vue": "^3.36.1",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/vue-query": "^5.92.8",
-    "@vast/file-explorer": "file:vast-file-explorer-0.0.0.tgz",
     "pinia": "^3.0.4",
     "primevue": "^4.5.4",
     "tailwindcss": "^4.1.18",
@@ -42,6 +41,7 @@
     "@antfu/eslint-config": "^7.0.1",
     "@primevue/auto-import-resolver": "^4.5.4",
     "@types/node": "^24.10.1",
+    "@vast/file-explorer": "file:vast-file-explorer-0.0.0.tgz",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
     "eslint": "^9.39.2",
