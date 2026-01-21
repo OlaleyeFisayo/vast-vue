@@ -21,14 +21,14 @@ import {
 const fileTreeStore = useFileTreeStore();
 
 const newFolderName = ref("");
-const inputRef = ref<any>(null);
+const createFolderRef = ref<any>(null);
 
 watch(
   () => fileTreeStore.createFolderMode,
   (isCreating) => {
     if (isCreating) {
       nextTick(() => {
-        inputRef.value?.$el.focus();
+        createFolderRef.value?.$el.focus();
       });
     }
   },
@@ -59,7 +59,7 @@ async function handleFolderCreate() {
         :style="{ width: FILE_TREE_STATES.iconSize, height: FILE_TREE_STATES.iconSize }"
       />
       <InputText
-        ref="inputRef"
+        ref="createFolderRef"
         v-model="newFolderName"
         pt:root:class="py-0 px-1"
         type="text"

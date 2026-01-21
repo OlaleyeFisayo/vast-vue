@@ -30,15 +30,12 @@ export const useFileTreeStore = defineStore(
     };
 
     // Rename Mode
-    const renameMode = ref(false);
     const renameData = ref<FileTreeNode | null>(null);
     const disableRenameMode = () => {
-      renameMode.value = false;
       renameData.value = null;
     };
-    const setRenameData = (node: FileTreeNode) => {
+    const enableRenameMode = (node: FileTreeNode) => {
       renameData.value = node;
-      renameMode.value = true;
     };
 
     return {
@@ -51,10 +48,9 @@ export const useFileTreeStore = defineStore(
       enableCreateFolderMode,
       disableCreateFolderMode,
       // Rename Mode
-      renameMode,
       renameData,
       disableRenameMode,
-      setRenameData,
+      enableRenameMode,
     };
   },
 );

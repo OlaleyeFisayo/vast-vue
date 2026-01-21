@@ -11,9 +11,10 @@ import {
   rename,
 } from "@vast/file-explorer";
 import {
+  computed,
   nextTick,
+  onMounted,
   ref,
-  watch,
 } from "vue";
 import {
   useFileTreeStore,
@@ -27,20 +28,10 @@ defineProps<{
 }>();
 
 const fileTreeStore = useFileTreeStore();
+const renameData = computed(() => fileTreeStore.renameData);
 
-const newName = ref(fileTreeStore.renameData?.name ?? "");
+const newName = ref(renameData.value?.name ?? "");
 const renameRef = ref();
-
-watch(
-  () => fileTreeStore.renameMode,
-  (isRenaming) => {
-    if (isRenaming) {
-      nextTick(() => {
-        renameRef.value?.$el.focus();
-      });
-    }
-  },
-);
 
 function resetAndBlur() {
   newName.value = "";
@@ -48,15 +39,21 @@ function resetAndBlur() {
 }
 
 async function handleRename() {
-  if (fileTreeStore.renameData && newName.value.trim()) {
+  if (newName.value.trim() && renameData.value) {
     await rename(
-      fileTreeStore.renameData.absolutePath,
+      renameData.value.absolutePath,
       newName.value,
     );
   }
 
   resetAndBlur();
 }
+
+onMounted(() => {
+  nextTick(() => {
+    renameRef.value.$el.focus();
+  });
+});
 </script>
 
 <template>

@@ -46,8 +46,12 @@ function toggleIcon(node: FileTreeNode) {
       :key="node.key"
       :style="style"
     >
+      <RenameFileEntry
+        v-if="node.key === fileTreeStore.renameData?.key"
+        :node="node"
+      />
       <button
-        v-if="!fileTreeStore.renameMode || node.key !== fileTreeStore.renameData?.key"
+        v-else
         class="w-full cursor-pointer flex p-0.5 items-center gap-1 hover:bg-gray-800 focus:bg-gray-800"
         @click="toggleIcon(node)"
         @contextmenu.prevent="toggleFileContextMenu($event, node)"
@@ -61,10 +65,6 @@ function toggleIcon(node: FileTreeNode) {
           {{ node.name }}
         </p>
       </button>
-      <RenameFileEntry
-        v-else
-        :node="node"
-      />
       <!-- Child -->
       <FileEntry
         v-if="node.type === 'directory' && node.expanded"
