@@ -24,7 +24,7 @@ const newFolderName = ref("");
 const inputRef = ref<any>(null);
 
 watch(
-  () => fileTreeStore.createFileMode,
+  () => fileTreeStore.createFolderMode,
   (isCreating) => {
     if (isCreating) {
       nextTick(() => {
