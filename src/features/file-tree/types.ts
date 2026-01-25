@@ -14,10 +14,6 @@ export type UseCopyCutPayload = {
   newPath?: string;
 };
 
-export type UseDeletePayload = {
-  path: string;
-};
-
 export type UseCreatePayload = {
   type: FileTreeNode["type"];
   name: string;

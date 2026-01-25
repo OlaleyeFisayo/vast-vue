@@ -15,9 +15,6 @@ import {
   copyCutFileEntry,
 } from "../composables/copy-cut-file-entry";
 import {
-  deleteFileEntry,
-} from "../composables/delete.file-entry";
-import {
   useCopy,
   useDelete,
   useExpandDirectory,
@@ -120,10 +117,7 @@ function items(): MenuItem[] {
       },
       {
         label: "Delete",
-        command: async () => deleteFileEntry(
-          deleteFn,
-          absolutePath,
-        ),
+        command: async () => deleteFn.mutateAsync(absolutePath),
       },
     ];
   }

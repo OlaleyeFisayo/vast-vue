@@ -4,7 +4,6 @@ import type {
 import type {
   UseCopyCutPayload,
   UseCreatePayload,
-  UseDeletePayload,
   UseRenamePayload,
 } from "./types";
 import {
@@ -139,11 +138,7 @@ export function useDelete() {
     errorToast,
   } = useToastHook();
   return useMutation({
-    mutationFn: async ({
-      path,
-    }: UseDeletePayload) => {
-      await deleteItem(path);
-    },
+    mutationFn: deleteItem,
     onError: (error: AxiosError<{
       message: string;
     }>) => {
