@@ -14,6 +14,8 @@ import {
 import {
   FILE_TREE_STATES,
 } from "../variables";
+import CreateFile from "./create-file.vue";
+import CreateFolder from "./create-folder.vue";
 import FileContextMenu from "./file-context-menu.vue";
 import FileEntry from "./file-entry.vue";
 import RenameFileEntry from "./rename-file-entry.vue";
@@ -54,12 +56,28 @@ function toggleFileContextMenu(
         :node="node"
         :toggle-file-context-menu="toggleFileContextMenu"
       />
+      <!-- Create Folder -->
+      <CreateFolder
+        v-if="node.type === 'directory'
+          && node.expanded
+          && fileTreeStore.createData.node?.key === node.key && fileTreeStore.createData.type === 'directory'"
+        :node="node"
+        :style="{ marginLeft: FILE_TREE_STATES.fileGap }"
+      />
       <!-- Child -->
       <FileEntries
         v-if="node.type === 'directory' && node.expanded"
-        :tree-nodes="node.children"
         :style="{ marginLeft: FILE_TREE_STATES.fileGap }"
+        :tree-nodes="node.children"
         :toggle-file-context-menu="toggleFileContextMenu"
+      />
+      <!-- Create File -->
+      <CreateFile
+        v-if="node.type === 'directory'
+          && node.expanded
+          && fileTreeStore.createData.node?.key === node.key && fileTreeStore.createData.type === 'file'"
+        :node="node"
+        :style="{ marginLeft: FILE_TREE_STATES.createEntryFileDap }"
       />
     </div>
   </template>

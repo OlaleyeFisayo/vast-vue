@@ -4,6 +4,7 @@ import type {
 import type {
   ActiveCopyCutMode,
   CopyAndCutModeState,
+  CreateModeState,
 } from "./types";
 import {
   defineStore,
@@ -16,22 +17,23 @@ import {
 export const useFileTreeStore = defineStore(
   "fileTree",
   () => {
-    // Create File Mode
-    const createFileMode = ref(false);
-    const enableCreateFileMode = () => {
-      createFileMode.value = true;
-    };
-    const disableCreateFileMode = () => {
-      createFileMode.value = false;
+    // Create Mode
+    const createData = reactive<CreateModeState>({
+      type: null,
+      node: null,
+    });
+
+    const enableCreateMode = (
+      type: FileTreeNode["type"],
+      node: FileTreeNode | null = null,
+    ) => {
+      createData.type = type;
+      createData.node = node;
     };
 
-    // Create Folder Mode
-    const createFolderMode = ref(false);
-    const enableCreateFolderMode = () => {
-      createFolderMode.value = true;
-    };
-    const disableCreateFolderMode = () => {
-      createFolderMode.value = false;
+    const disableCreateMode = () => {
+      createData.type = null;
+      createData.node = null;
     };
 
     // Rename Mode
@@ -61,14 +63,10 @@ export const useFileTreeStore = defineStore(
     };
 
     return {
-      // Create File Mode
-      createFileMode,
-      enableCreateFileMode,
-      disableCreateFileMode,
-      // Create Folder Mode
-      createFolderMode,
-      enableCreateFolderMode,
-      disableCreateFolderMode,
+      // Create Mode
+      createData,
+      enableCreateMode,
+      disableCreateMode,
       // Rename Mode
       renameData,
       disableRenameMode,

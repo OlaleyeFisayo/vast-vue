@@ -45,9 +45,9 @@ const openInFileManager = useOpenInFileManager();
 function items(): MenuItem[] {
   if (props.selectedNode) {
     const node = props.selectedNode;
-    const isDirectory = props.selectedNode.type === "directory";
-    const absolutePath = props.selectedNode.absolutePath;
-    const relativePath = props.selectedNode.key;
+    const isDirectory = node.type === "directory";
+    const absolutePath = node.absolutePath;
+    const relativePath = node.key;
     const copyAndCutMode = fileTreeStore.copyAndCutData.mode;
     const copyAndCuteSource = fileTreeStore.copyAndCutData.source;
 
@@ -55,10 +55,28 @@ function items(): MenuItem[] {
       {
         label: "New File...",
         visible: isDirectory,
+        command: async () => {
+          if (isDirectory && !node.expanded) {
+            await expandDirectory.mutateAsync(node.absolutePath);
+          }
+          fileTreeStore.enableCreateMode(
+            "file",
+            node,
+          );
+        },
       },
       {
         label: "New Folder...",
         visible: isDirectory,
+        command: async () => {
+          if (isDirectory && !node.expanded) {
+            await expandDirectory.mutateAsync(node.absolutePath);
+          }
+          fileTreeStore.enableCreateMode(
+            "directory",
+            node,
+          );
+        },
       },
       {
         separator: true,

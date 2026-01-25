@@ -34,12 +34,12 @@ const fileTreeContainerActions = computed(() => [
   {
     title: "New File",
     icon: IconFilePlus,
-    action: fileTreeStore.enableCreateFileMode,
+    action: () => fileTreeStore.enableCreateMode("file"),
   },
   {
     title: "New Folder",
     icon: IconFolderPlus,
-    action: fileTreeStore.enableCreateFolderMode,
+    action: () => fileTreeStore.enableCreateMode("directory"),
   },
   {
     title: "Paste",
