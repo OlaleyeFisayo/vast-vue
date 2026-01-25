@@ -14,16 +14,13 @@ import {
 } from "@tanstack/vue-query";
 import {
   collapseDirectory,
-  copyFile,
-  copyFolder,
+  copy,
   createFile,
   createFolder,
-  deleteFile,
-  deleteFolder,
+  deleteItem,
   expandDirectory,
   getFileTree,
-  moveFile,
-  moveFolder,
+  move,
   openInFileManager,
   rename,
 } from "@vast/file-explorer";
@@ -93,22 +90,13 @@ export function useCopy() {
   } = useToastHook();
   return useMutation({
     mutationFn: async ({
-      type,
       sourcePath,
       newPath,
     }: UseCopyCutPayload) => {
-      if (type === "file") {
-        await copyFile(
-          sourcePath,
-          newPath,
-        );
-      }
-      if (type === "directory") {
-        await copyFolder(
-          sourcePath,
-          newPath,
-        );
-      }
+      await copy(
+        sourcePath,
+        newPath,
+      );
     },
     onError: (error: AxiosError<{
       message: string;
@@ -127,22 +115,13 @@ export function useMove() {
   } = useToastHook();
   return useMutation({
     mutationFn: async ({
-      type,
       sourcePath,
       newPath,
     }: UseCopyCutPayload) => {
-      if (type === "file") {
-        await moveFile(
-          sourcePath,
-          newPath,
-        );
-      }
-      if (type === "directory") {
-        await moveFolder(
-          sourcePath,
-          newPath,
-        );
-      }
+      await move(
+        sourcePath,
+        newPath,
+      );
     },
     onError: (error: AxiosError<{
       message: string;
@@ -161,12 +140,9 @@ export function useDelete() {
   } = useToastHook();
   return useMutation({
     mutationFn: async ({
-      type,
       path,
     }: UseDeletePayload) => {
-      if (type === "directory")
-        await deleteFolder(path);
-      else await deleteFile(path);
+      await deleteItem(path);
     },
     onError: (error: AxiosError<{
       message: string;

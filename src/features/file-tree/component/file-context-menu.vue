@@ -122,7 +122,6 @@ function items(): MenuItem[] {
         label: "Delete",
         command: async () => deleteFileEntry(
           deleteFn,
-          node.type,
           absolutePath,
         ),
       },

@@ -10,13 +10,11 @@ export type CopyAndCutModeState = {
 };
 
 export type UseCopyCutPayload = {
-  type: FileTreeNode["type"];
   sourcePath: string;
   newPath?: string;
 };
 
 export type UseDeletePayload = {
-  type: FileTreeNode["type"];
   path: string;
 };
 

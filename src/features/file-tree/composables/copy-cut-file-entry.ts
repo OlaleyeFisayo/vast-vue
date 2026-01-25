@@ -23,14 +23,12 @@ export async function copyCutFileEntry(
   }
   if (mode === "copy") {
     await copy.mutateAsync({
-      type: source.type,
       sourcePath: source.absolutePath,
       newPath: newPath?.absolutePath,
     });
   }
   else if (mode === "cut") {
     await move.mutateAsync({
-      type: source.type,
       sourcePath: source.absolutePath,
       newPath: newPath?.absolutePath,
     });
