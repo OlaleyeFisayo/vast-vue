@@ -6,8 +6,6 @@ import type {
   MenuItem,
 } from "primevue/menuitem";
 import {
-  deleteFile,
-  deleteFolder,
   openInFileManager,
 } from "@vast/file-explorer";
 import {
@@ -20,7 +18,11 @@ import {
   copyCutFileEntry,
 } from "../composables/copy-cut-file-entry";
 import {
+  deleteFileEntry,
+} from "../composables/delete.file-entry";
+import {
   useCopy,
+  useDelete,
   useExpandDirectory,
   useMove,
 } from "../queries";
@@ -42,6 +44,7 @@ const fileTreeStore = useFileTreeStore();
 const expandDirectory = useExpandDirectory();
 const copy = useCopy();
 const move = useMove();
+const deleteFn = useDelete();
 
 function items(): MenuItem[] {
   if (props.selectedNode) {
@@ -118,11 +121,11 @@ function items(): MenuItem[] {
       },
       {
         label: "Delete",
-        command: async () => {
-          if (node.type === "directory")
-            await deleteFolder(node.absolutePath);
-          else await deleteFile(node.absolutePath);
-        },
+        command: async () => deleteFileEntry(
+          deleteFn,
+          node.type,
+          absolutePath,
+        ),
       },
     ];
   }

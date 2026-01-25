@@ -2,7 +2,8 @@ import type {
   AxiosError,
 } from "axios";
 import type {
-  useCopyPayload,
+  UseCopyCutPayload,
+  UseDeletePayload,
 } from "./types";
 import {
   useMutation,
@@ -13,6 +14,8 @@ import {
   collapseDirectory,
   copyFile,
   copyFolder,
+  deleteFile,
+  deleteFolder,
   expandDirectory,
   getFileTree,
   moveFile,
@@ -87,7 +90,7 @@ export function useCopy() {
       type,
       sourcePath,
       newPath,
-    }: useCopyPayload) => {
+    }: UseCopyCutPayload) => {
       if (type === "file") {
         await copyFile(
           sourcePath,
@@ -121,7 +124,7 @@ export function useMove() {
       type,
       sourcePath,
       newPath,
-    }: useCopyPayload) => {
+    }: UseCopyCutPayload) => {
       if (type === "file") {
         await moveFile(
           sourcePath,
@@ -134,6 +137,30 @@ export function useMove() {
           newPath,
         );
       }
+    },
+    onError: (error: AxiosError<{
+      message: string;
+    }>) => {
+      const errorMessage = error?.response?.data ? error.response.data.message : error.message;
+      errorToast({
+        detail: errorMessage,
+      });
+    },
+  });
+}
+
+export function useDelete() {
+  const {
+    errorToast,
+  } = useToastHook();
+  return useMutation({
+    mutationFn: async ({
+      type,
+      path,
+    }: UseDeletePayload) => {
+      if (type === "directory")
+        await deleteFolder(path);
+      else await deleteFile(path);
     },
     onError: (error: AxiosError<{
       message: string;
