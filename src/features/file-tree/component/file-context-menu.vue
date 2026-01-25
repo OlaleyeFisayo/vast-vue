@@ -8,6 +8,7 @@ import type {
 import {
   deleteFile,
   deleteFolder,
+  openInFileManager,
 } from "@vast/file-explorer";
 import {
   ref,
@@ -53,6 +54,7 @@ function items(): MenuItem[] {
       },
       {
         label: "Reveal in File Explorer",
+        command: async () => await openInFileManager(absolutePath),
       },
       {
         label: "Open in Code Editor",
