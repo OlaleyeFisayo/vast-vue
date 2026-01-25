@@ -4,7 +4,7 @@ import type {
 } from "@vast/file-explorer";
 import {
   useCollapseDirectory,
-  useExportDirectory,
+  useExpandDirectory,
 } from "../queries";
 import {
   FILE_TREE_STATES,
@@ -17,7 +17,7 @@ defineProps<{
   toggleFileContextMenu: (event: MouseEvent, node: FileTreeNode) => void;
 }>();
 
-const expandDirectory = useExportDirectory();
+const expandDirectory = useExpandDirectory();
 const collapseDirectory = useCollapseDirectory();
 
 function toggleIcon(node: FileTreeNode) {

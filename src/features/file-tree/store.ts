@@ -1,10 +1,15 @@
 import type {
   FileTreeNode,
 } from "@vast/file-explorer";
+import type {
+  ActiveCopyCutMode,
+  CopyAndCutModeState,
+} from "./types";
 import {
   defineStore,
 } from "pinia";
 import {
+  reactive,
   ref,
 } from "vue";
 
@@ -38,6 +43,23 @@ export const useFileTreeStore = defineStore(
       renameData.value = node;
     };
 
+    // Copy and Cut Mode
+    const copyAndCutData = reactive<CopyAndCutModeState>({
+      mode: null,
+      source: null,
+    });
+    const enableCopyAndCutMode = (
+      mode: ActiveCopyCutMode,
+      source: FileTreeNode,
+    ) => {
+      copyAndCutData.mode = mode;
+      copyAndCutData.source = source;
+    };
+    const disableCopyAndCutMode = () => {
+      copyAndCutData.mode = null;
+      copyAndCutData.source = null;
+    };
+
     return {
       // Create File Mode
       createFileMode,
@@ -51,6 +73,10 @@ export const useFileTreeStore = defineStore(
       renameData,
       disableRenameMode,
       enableRenameMode,
+      // Copy and Cut Mode
+      copyAndCutData,
+      enableCopyAndCutMode,
+      disableCopyAndCutMode,
     };
   },
 );

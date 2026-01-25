@@ -17,6 +17,14 @@ import {
   useClipboard,
 } from "../../../shared/hooks/use-clipboard";
 import {
+  copyCutFileEntry,
+} from "../composables/copy-cut-file-entry";
+import {
+  useCopy,
+  useExpandDirectory,
+  useMove,
+} from "../queries";
+import {
   useFileTreeStore,
 } from "../store";
 
@@ -31,6 +39,9 @@ const {
 } = useClipboard();
 
 const fileTreeStore = useFileTreeStore();
+const expandDirectory = useExpandDirectory();
+const copy = useCopy();
+const move = useMove();
 
 function items(): MenuItem[] {
   if (props.selectedNode) {
@@ -38,6 +49,8 @@ function items(): MenuItem[] {
     const isDirectory = props.selectedNode.type === "directory";
     const absolutePath = props.selectedNode.absolutePath;
     const relativePath = props.selectedNode.key;
+    const copyAndCutMode = fileTreeStore.copyAndCutData.mode;
+    const copyAndCuteSource = fileTreeStore.copyAndCutData.source;
 
     return [
       {
@@ -57,21 +70,33 @@ function items(): MenuItem[] {
         command: async () => await openInFileManager(absolutePath),
       },
       {
-        label: "Open in Code Editor",
-        visible: !isDirectory,
-      },
-      {
         separator: true,
       },
       {
         label: "Cut",
+        command: () => fileTreeStore.enableCopyAndCutMode(
+          "cut",
+          node,
+        ),
       },
       {
         label: "Copy",
+        command: () => fileTreeStore.enableCopyAndCutMode(
+          "copy",
+          node,
+        ),
       },
       {
         label: "Paste",
-        visible: isDirectory,
+        visible: isDirectory && !!copyAndCutMode && !!copyAndCuteSource,
+        command: async () => copyCutFileEntry(
+          copy,
+          move,
+          copyAndCutMode!,
+          copyAndCuteSource!,
+          node,
+          expandDirectory,
+        ),
       },
       {
         separator: true,

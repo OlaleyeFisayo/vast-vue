@@ -31,6 +31,7 @@
     "@tabler/icons-vue": "^3.36.1",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/vue-query": "^5.92.8",
+    "axios": "^1.13.2",
     "pinia": "^3.0.4",
     "primevue": "^4.5.4",
     "tailwindcss": "^4.1.18",
@@ -55,6 +56,6 @@
     "vue-tsc": "^3.1.4"
   },
   "lint-staged": {
-    "*": "npm run lint"
+    "*": "npm run lint:fix"
   }
 }

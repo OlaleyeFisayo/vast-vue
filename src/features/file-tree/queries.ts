@@ -1,3 +1,9 @@
+import type {
+  AxiosError,
+} from "axios";
+import type {
+  useCopyPayload,
+} from "./types";
 import {
   useMutation,
   useQuery,
@@ -5,9 +11,16 @@ import {
 } from "@tanstack/vue-query";
 import {
   collapseDirectory,
+  copyFile,
+  copyFolder,
   expandDirectory,
   getFileTree,
+  moveFile,
+  moveFolder,
 } from "@vast/file-explorer";
+import {
+  useToastHook,
+} from "../../shared/hooks/use-toast-hook";
 
 export function useGetFileTree() {
   return useQuery({
@@ -17,8 +30,11 @@ export function useGetFileTree() {
   });
 }
 
-export function useExportDirectory() {
+export function useExpandDirectory() {
   const queryClient = useQueryClient();
+  const {
+    errorToast,
+  } = useToastHook();
   return useMutation({
     mutationFn: expandDirectory,
     onSuccess: (data) => {
@@ -27,11 +43,22 @@ export function useExportDirectory() {
         data,
       );
     },
+    onError: (error: AxiosError<{
+      message: string;
+    }>) => {
+      const errorMessage = error?.response?.data ? error.response.data.message : error.message;
+      errorToast({
+        detail: errorMessage,
+      });
+    },
   });
 }
 
 export function useCollapseDirectory() {
   const queryClient = useQueryClient();
+  const {
+    errorToast,
+  } = useToastHook();
   return useMutation({
     mutationFn: collapseDirectory,
     onSuccess: (data) => {
@@ -39,6 +66,82 @@ export function useCollapseDirectory() {
         ["fileTree"],
         data,
       );
+    },
+    onError: (error: AxiosError<{
+      message: string;
+    }>) => {
+      const errorMessage = error?.response?.data ? error.response.data.message : error.message;
+      errorToast({
+        detail: errorMessage,
+      });
+    },
+  });
+}
+
+export function useCopy() {
+  const {
+    errorToast,
+  } = useToastHook();
+  return useMutation({
+    mutationFn: async ({
+      type,
+      sourcePath,
+      newPath,
+    }: useCopyPayload) => {
+      if (type === "file") {
+        await copyFile(
+          sourcePath,
+          newPath,
+        );
+      }
+      if (type === "directory") {
+        await copyFolder(
+          sourcePath,
+          newPath,
+        );
+      }
+    },
+    onError: (error: AxiosError<{
+      message: string;
+    }>) => {
+      const errorMessage = error?.response?.data ? error.response.data.message : error.message;
+      errorToast({
+        detail: errorMessage,
+      });
+    },
+  });
+}
+
+export function useMove() {
+  const {
+    errorToast,
+  } = useToastHook();
+  return useMutation({
+    mutationFn: async ({
+      type,
+      sourcePath,
+      newPath,
+    }: useCopyPayload) => {
+      if (type === "file") {
+        await moveFile(
+          sourcePath,
+          newPath,
+        );
+      }
+      if (type === "directory") {
+        await moveFolder(
+          sourcePath,
+          newPath,
+        );
+      }
+    },
+    onError: (error: AxiosError<{
+      message: string;
+    }>) => {
+      const errorMessage = error?.response?.data ? error.response.data.message : error.message;
+      errorToast({
+        detail: errorMessage,
+      });
     },
   });
 }
