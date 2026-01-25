@@ -3,14 +3,14 @@ import type {
   FileTreeNode,
 } from "@vast/file-explorer";
 import {
-  rename,
-} from "@vast/file-explorer";
-import {
   computed,
   nextTick,
   onMounted,
   ref,
 } from "vue";
+import {
+  useRename,
+} from "../queries";
 import {
   useFileTreeStore,
 } from "../store";
@@ -29,6 +29,7 @@ const renameData = computed(() => fileTreeStore.renameData);
 
 const newName = ref(renameData.value?.name ?? "");
 const renameRef = ref();
+const rename = useRename();
 
 function resetAndBlur() {
   newName.value = "";
@@ -37,10 +38,10 @@ function resetAndBlur() {
 
 async function handleRename() {
   if (newName.value.trim() && renameData.value) {
-    await rename(
-      renameData.value.absolutePath,
-      newName.value,
-    );
+    await rename.mutateAsync({
+      path: renameData.value.absolutePath,
+      name: newName.value,
+    });
   }
 
   resetAndBlur();

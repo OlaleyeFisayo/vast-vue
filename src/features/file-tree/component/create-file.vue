@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import {
-  createFile,
-} from "@vast/file-explorer";
-import {
   nextTick,
   ref,
   watch,
 } from "vue";
+import {
+  useCreate,
+} from "../queries";
 import {
   useFileTreeStore,
 } from "../store";
@@ -20,6 +20,7 @@ const fileTreeStore = useFileTreeStore();
 
 const newFileName = ref("");
 const createFileRef = ref<any>(null);
+const create = useCreate();
 
 watch(
   () => fileTreeStore.createFileMode,
@@ -38,8 +39,12 @@ function resetAndBlur() {
 }
 
 async function handleFileCreate() {
-  if (newFileName.value.trim())
-    await createFile(newFileName.value);
+  if (newFileName.value.trim()) {
+    await create.mutateAsync({
+      type: "file",
+      name: newFileName.value,
+    });
+  }
 
   resetAndBlur();
 }

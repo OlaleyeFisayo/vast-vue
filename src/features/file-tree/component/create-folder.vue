@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import {
-  createFolder,
-} from "@vast/file-explorer";
-import {
   nextTick,
   ref,
   watch,
 } from "vue";
+import {
+  useCreate,
+} from "../queries";
 import {
   useFileTreeStore,
 } from "../store";
@@ -20,6 +20,7 @@ const fileTreeStore = useFileTreeStore();
 
 const newFolderName = ref("");
 const createFolderRef = ref<any>(null);
+const create = useCreate();
 
 watch(
   () => fileTreeStore.createFolderMode,
@@ -38,8 +39,12 @@ function resetAndBlur() {
 }
 
 async function handleFolderCreate() {
-  if (newFolderName.value.trim())
-    await createFolder(newFolderName.value);
+  if (newFolderName.value.trim()) {
+    await create.mutateAsync({
+      type: "directory",
+      name: newFolderName.value,
+    });
+  }
 
   resetAndBlur();
 }

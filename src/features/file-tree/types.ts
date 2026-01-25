@@ -19,3 +19,14 @@ export type UseDeletePayload = {
   type: FileTreeNode["type"];
   path: string;
 };
+
+export type UseCreatePayload = {
+  type: FileTreeNode["type"];
+  name: string;
+  path?: string;
+};
+
+export type UseRenamePayload = {
+  path: string;
+  name: string;
+};

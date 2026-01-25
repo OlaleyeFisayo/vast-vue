@@ -3,7 +3,9 @@ import type {
 } from "axios";
 import type {
   UseCopyCutPayload,
+  UseCreatePayload,
   UseDeletePayload,
+  UseRenamePayload,
 } from "./types";
 import {
   useMutation,
@@ -14,12 +16,15 @@ import {
   collapseDirectory,
   copyFile,
   copyFolder,
+  createFile,
+  createFolder,
   deleteFile,
   deleteFolder,
   expandDirectory,
   getFileTree,
   moveFile,
   moveFolder,
+  rename,
 } from "@vast/file-explorer";
 import {
   useToastHook,
@@ -161,6 +166,65 @@ export function useDelete() {
       if (type === "directory")
         await deleteFolder(path);
       else await deleteFile(path);
+    },
+    onError: (error: AxiosError<{
+      message: string;
+    }>) => {
+      const errorMessage = error?.response?.data ? error.response.data.message : error.message;
+      errorToast({
+        detail: errorMessage,
+      });
+    },
+  });
+}
+
+export function useCreate() {
+  const {
+    errorToast,
+  } = useToastHook();
+  return useMutation({
+    mutationFn: async ({
+      type,
+      name,
+      path,
+    }: UseCreatePayload) => {
+      if (type === "file") {
+        await createFile(
+          name,
+          path,
+        );
+      }
+      else {
+        await createFolder(
+          name,
+          path,
+        );
+      }
+    },
+    onError: (error: AxiosError<{
+      message: string;
+    }>) => {
+      const errorMessage = error?.response?.data ? error.response.data.message : error.message;
+      errorToast({
+        detail: errorMessage,
+      });
+    },
+  });
+}
+
+export function useRename() {
+  const {
+    errorToast,
+  } = useToastHook();
+  return useMutation({
+    mutationFn: async ({
+      path,
+      name,
+    }: UseRenamePayload) => {
+      await rename(
+        path,
+        name,
+      );
     },
     onError: (error: AxiosError<{
       message: string;
