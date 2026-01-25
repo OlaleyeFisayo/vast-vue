@@ -24,6 +24,7 @@ import {
   getFileTree,
   moveFile,
   moveFolder,
+  openInFileManager,
   rename,
 } from "@vast/file-explorer";
 import {
@@ -226,6 +227,23 @@ export function useRename() {
         name,
       );
     },
+    onError: (error: AxiosError<{
+      message: string;
+    }>) => {
+      const errorMessage = error?.response?.data ? error.response.data.message : error.message;
+      errorToast({
+        detail: errorMessage,
+      });
+    },
+  });
+}
+
+export function useOpenInFileManager() {
+  const {
+    errorToast,
+  } = useToastHook();
+  return useMutation({
+    mutationFn: openInFileManager,
     onError: (error: AxiosError<{
       message: string;
     }>) => {

@@ -6,9 +6,6 @@ import type {
   MenuItem,
 } from "primevue/menuitem";
 import {
-  openInFileManager,
-} from "@vast/file-explorer";
-import {
   ref,
 } from "vue";
 import {
@@ -25,6 +22,7 @@ import {
   useDelete,
   useExpandDirectory,
   useMove,
+  useOpenInFileManager,
 } from "../queries";
 import {
   useFileTreeStore,
@@ -45,6 +43,7 @@ const expandDirectory = useExpandDirectory();
 const copy = useCopy();
 const move = useMove();
 const deleteFn = useDelete();
+const openInFileManager = useOpenInFileManager();
 
 function items(): MenuItem[] {
   if (props.selectedNode) {
@@ -70,7 +69,7 @@ function items(): MenuItem[] {
       },
       {
         label: "Reveal in File Explorer",
-        command: async () => await openInFileManager(absolutePath),
+        command: async () => await openInFileManager.mutateAsync(absolutePath),
       },
       {
         separator: true,
