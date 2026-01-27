@@ -61,23 +61,25 @@ const fileTreeContainerActions = computed(() => [
 </script>
 
 <template>
-  <section class="flex gap-1">
-    <button
-      v-for="{ title, icon, action, isVisible } in fileTreeContainerActions"
-      v-show="isVisible ?? true"
-      :key="title"
-      v-tooltip="{
-        value: title,
-        showDelay: VAST_APP_STATES.tooltipShowDelay,
-      }"
-      class="cursor-pointer hover:bg-gray-800 p-1.5"
-      type="button"
-      @click="action"
-    >
-      <component
-        :is="icon"
-        class="size-5"
-      />
-    </button>
-  </section>
+  <main class="space-y-2">
+    <section class="flex gap-1">
+      <button
+        v-for="{ title, icon, action, isVisible } in fileTreeContainerActions"
+        v-show="isVisible ?? true"
+        :key="title"
+        v-tooltip="{
+          value: title,
+          showDelay: VAST_APP_STATES.tooltipShowDelay,
+        }"
+        class="cursor-pointer hover:bg-gray-800 p-1.5"
+        type="button"
+        @click="action"
+      >
+        <component
+          :is="icon"
+          class="size-5"
+        />
+      </button>
+    </section>
+  </main>
 </template>

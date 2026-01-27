@@ -22,7 +22,6 @@ export const useFileTreeStore = defineStore(
       type: null,
       node: null,
     });
-
     const enableCreateMode = (
       type: FileTreeNode["type"],
       node: FileTreeNode | null = null,
@@ -30,7 +29,6 @@ export const useFileTreeStore = defineStore(
       createData.type = type;
       createData.node = node;
     };
-
     const disableCreateMode = () => {
       createData.type = null;
       createData.node = null;
