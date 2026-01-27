@@ -27,7 +27,7 @@
     "file": "npm run file:remove && npm install vast-file-explorer-0.0.0.tgz -D"
   },
   "dependencies": {
-    "@primeuix/themes": "^2.0.2",
+    "@primeuix/themes": "^2.0.3",
     "@tabler/icons-vue": "^3.36.1",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/vue-query": "^5.92.8",
