@@ -30,14 +30,18 @@ function toggleIcon(node: FileTreeNode) {
 };
 
 function handleClick(node: FileTreeNode) {
-  fileTreeStore.setSelectedNode(node);
   toggleIcon(node);
+  fileTreeStore.setSelectedNode(node);
 }
 </script>
 
 <template>
   <button
-    :class="`w-full cursor-pointer flex p-0.5 items-center gap-1 hover:bg-gray-800 focus:bg-gray-800 ${node === fileTreeStore.selectedNode && 'border-2'}`"
+    class="w-full cursor-pointer flex p-0.5 items-center gap-1 hover:bg-gray-800 focus:bg-gray-800"
+    :class="[
+      // Show focus state when the file or folder is selected
+      node === fileTreeStore.selectedNode && 'bg-gray-800 focus:bg-gray-800',
+    ]"
     @click="handleClick(node)"
     @contextmenu.prevent="toggleFileContextMenu($event, node)"
   >
@@ -45,7 +49,9 @@ function handleClick(node: FileTreeNode) {
     <p
       class="flex items-center gap-1.5 text-nowrap text-ellipsis"
     >
-      <FileEntryIcon :node="node" />
+      <FileEntryIcon
+        :node="node"
+      />
       {{ node.name }}
     </p>
   </button>

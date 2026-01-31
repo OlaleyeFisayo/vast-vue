@@ -15,7 +15,6 @@ import {
 } from "../store";
 import {
   dummyFileEntryNodeFile,
-  FILE_TREE_STATES,
 } from "../variables";
 import FileEntryIcon from "./file-entry-icon.vue";
 
@@ -58,7 +57,6 @@ async function handleFileCreate() {
 
 <template>
   <div
-    :style="{ marginLeft: FILE_TREE_STATES.fileGap }"
     class="w-full cursor-pointer flex p-0.5 items-center gap-1"
   >
     <FileEntryIcon :node="dummyFileEntryNodeFile" />

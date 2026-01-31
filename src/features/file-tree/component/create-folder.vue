@@ -16,7 +16,6 @@ import {
 import {
   dummyFileEntryNodeFolder,
 } from "../variables";
-import FileEntryIcon from "./file-entry-icon.vue";
 import FolderToggleIcon from "./folder-toggle-icon.vue";
 
 const props = defineProps<{
@@ -59,7 +58,6 @@ async function handleFolderCreate() {
 <template>
   <div class="w-full cursor-pointer flex p-0.5 items-center gap-1">
     <FolderToggleIcon :node="dummyFileEntryNodeFolder" />
-    <FileEntryIcon :node="dummyFileEntryNodeFolder" />
     <InputText
       ref="createFolderRef"
       v-model="newFolderName"

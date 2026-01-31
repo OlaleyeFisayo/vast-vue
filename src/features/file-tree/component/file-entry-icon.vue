@@ -4,8 +4,6 @@ import type {
 } from "@vast/file-explorer";
 import {
   IconFile,
-  IconFolder,
-  IconFolderOpen,
 } from "@tabler/icons-vue";
 import {
   FILE_TREE_STATES,
@@ -17,14 +15,6 @@ defineProps<{
 </script>
 
 <template>
-  <IconFolder
-    v-if="node.type === 'directory' && !node.expanded"
-    :style="{ width: FILE_TREE_STATES.iconSize, height: FILE_TREE_STATES.iconSize }"
-  />
-  <IconFolderOpen
-    v-if="node.type === 'directory' && node.expanded"
-    :style="{ width: FILE_TREE_STATES.iconSize, height: FILE_TREE_STATES.iconSize }"
-  />
   <IconFile
     v-if="node.type === 'file'"
     :style="{ width: FILE_TREE_STATES.iconSize, height: FILE_TREE_STATES.iconSize }"
