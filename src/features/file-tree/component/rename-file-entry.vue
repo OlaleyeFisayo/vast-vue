@@ -14,9 +14,6 @@ import {
 import {
   useFileTreeStore,
 } from "../store";
-import {
-  FILE_TREE_STATES,
-} from "../variables";
 import FileEntryIcon from "./file-entry-icon.vue";
 import FolderToggleIcon from "./folder-toggle-icon.vue";
 
@@ -56,7 +53,6 @@ onMounted(() => {
 
 <template>
   <div
-    :style="{ marginLeft: node.type === 'file' ? FILE_TREE_STATES.fileGap : '0' }"
     class="w-full cursor-pointer flex p-0.5 items-center gap-1"
   >
     <FolderToggleIcon :node="node" />

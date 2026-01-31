@@ -28,13 +28,12 @@ defineProps<{
 const fileTreeStore = useFileTreeStore();
 
 const fileContextMenuRef = ref<InstanceType<typeof FileContextMenu> | null>(null);
-const selectedNode = ref<FileTreeNode | null>(null);
 function toggleFileContextMenu(
   event: MouseEvent,
   node: FileTreeNode,
 ) {
   fileContextMenuRef.value?.show(event);
-  selectedNode.value = node;
+  fileTreeStore.setSelectedNode(node);
 }
 </script>
 
@@ -83,6 +82,5 @@ function toggleFileContextMenu(
   </template>
   <FileContextMenu
     ref="fileContextMenuRef"
-    :selected-node="selectedNode"
   />
 </template>

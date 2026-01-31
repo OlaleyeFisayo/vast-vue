@@ -6,6 +6,9 @@ import {
   useCollapseDirectory,
   useExpandDirectory,
 } from "../queries";
+import {
+  useFileTreeStore,
+} from "../store";
 import FileEntryIcon from "./file-entry-icon.vue";
 import FolderToggleIcon from "./folder-toggle-icon.vue";
 
@@ -14,6 +17,7 @@ defineProps<{
   toggleFileContextMenu: (event: MouseEvent, node: FileTreeNode) => void;
 }>();
 
+const fileTreeStore = useFileTreeStore();
 const expandDirectory = useExpandDirectory();
 const collapseDirectory = useCollapseDirectory();
 
@@ -24,12 +28,17 @@ function toggleIcon(node: FileTreeNode) {
     else expandDirectory.mutate(node.absolutePath);
   }
 };
+
+function handleClick(node: FileTreeNode) {
+  fileTreeStore.setSelectedNode(node);
+  toggleIcon(node);
+}
 </script>
 
 <template>
   <button
-    class="w-full cursor-pointer flex p-0.5 items-center gap-1 hover:bg-gray-800 focus:bg-gray-800"
-    @click="toggleIcon(node)"
+    :class="`w-full cursor-pointer flex p-0.5 items-center gap-1 hover:bg-gray-800 focus:bg-gray-800 ${node === fileTreeStore.selectedNode && 'border-2'}`"
+    @click="handleClick(node)"
     @contextmenu.prevent="toggleFileContextMenu($event, node)"
   >
     <FolderToggleIcon :node="node" />

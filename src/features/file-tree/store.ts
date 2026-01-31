@@ -60,6 +60,10 @@ export const useFileTreeStore = defineStore(
       copyAndCutData.source = null;
     };
 
+    // Tracking Selected node
+    const selectedNode = ref<FileTreeNode | null>(null);
+    const setSelectedNode = (node: FileTreeNode) => selectedNode.value = node;
+
     return {
       // Create Mode
       createData,
@@ -73,6 +77,9 @@ export const useFileTreeStore = defineStore(
       copyAndCutData,
       enableCopyAndCutMode,
       disableCopyAndCutMode,
+      // Tracking Selected node
+      selectedNode,
+      setSelectedNode,
     };
   },
 );

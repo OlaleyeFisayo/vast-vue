@@ -1,8 +1,5 @@
 <script lang="ts" setup>
 import type {
-  FileTreeNode,
-} from "@vast/file-explorer";
-import type {
   MenuItem,
 } from "primevue/menuitem";
 import {
@@ -25,10 +22,6 @@ import {
   useFileTreeStore,
 } from "../store";
 
-const props = defineProps<{
-  selectedNode: FileTreeNode | null;
-}>();
-
 const contextMenuRef = ref();
 
 const {
@@ -43,8 +36,8 @@ const deleteFn = useDelete();
 const openInFileManager = useOpenInFileManager();
 
 function items(): MenuItem[] {
-  if (props.selectedNode) {
-    const node = props.selectedNode;
+  if (fileTreeStore.selectedNode) {
+    const node = fileTreeStore.selectedNode;
     const isDirectory = node.type === "directory";
     const absolutePath = node.absolutePath;
     const relativePath = node.key;
