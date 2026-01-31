@@ -77,7 +77,7 @@ function toggleFileContextMenu(
           && node.expanded
           && fileTreeStore.createData.node?.key === node.key && fileTreeStore.createData.type === 'file'"
         :node="node"
-        :style="{ marginLeft: FILE_TREE_STATES.createEntryFileGap }"
+        :style="{ marginLeft: FILE_TREE_STATES.fileGap }"
       />
     </div>
   </template>

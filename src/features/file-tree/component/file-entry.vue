@@ -6,9 +6,6 @@ import {
   useCollapseDirectory,
   useExpandDirectory,
 } from "../queries";
-import {
-  FILE_TREE_STATES,
-} from "../variables";
 import FileEntryIcon from "./file-entry-icon.vue";
 import FolderToggleIcon from "./folder-toggle-icon.vue";
 
@@ -37,7 +34,6 @@ function toggleIcon(node: FileTreeNode) {
   >
     <FolderToggleIcon :node="node" />
     <p
-      :style="{ marginLeft: node.type === 'file' ? FILE_TREE_STATES.fileGap : '0' }"
       class="flex items-center gap-1.5 text-nowrap text-ellipsis"
     >
       <FileEntryIcon :node="node" />
