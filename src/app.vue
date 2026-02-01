@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {
   computed,
+  onMounted,
+  onUnmounted,
 } from "vue";
 import ActivityBarBody from "./features/activity-bar/components/activity-bar-body.vue";
 import {
@@ -9,12 +11,40 @@ import {
 import {
   ActivityBarList,
 } from "./features/activity-bar/utils/activity-bar-list";
+import {
+  useDropZoneTargetPath,
+} from "./features/file-tree/composables/drop-zone-target-path";
 import HeaderBody from "./features/header/components/header-body.vue";
 
 const activityBarStore = useActivitybarStore();
 const cardView = computed(() => {
   const foundList = ActivityBarList.find(list => list.title === activityBarStore.activityInView);
   return foundList?.view;
+});
+
+// drag and Drop for @file-entry.vue
+const {
+  setDropZoneTargetPath,
+  setIsDragging,
+} = useDropZoneTargetPath();
+
+function onDragEnd() {
+  setDropZoneTargetPath(null);
+  setIsDragging(false);
+}
+
+onMounted(() => {
+  window.addEventListener(
+    "dragend",
+    onDragEnd,
+  );
+});
+
+onUnmounted(() => {
+  window.removeEventListener(
+    "dragend",
+    onDragEnd,
+  );
 });
 </script>
 

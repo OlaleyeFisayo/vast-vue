@@ -9,6 +9,12 @@ import {
   ref,
 } from "vue";
 import {
+  useDropZoneTargetPath,
+} from "../composables/drop-zone-target-path";
+import {
+  isValidMove,
+} from "../composables/is-valid-move";
+import {
   useFileTreeStore,
 } from "../store";
 import {
@@ -26,6 +32,31 @@ defineProps<{
 }>();
 
 const fileTreeStore = useFileTreeStore();
+const {
+  dropZoneTargetPath,
+  draggedSourcePath,
+} = useDropZoneTargetPath();
+
+function isNodeInDropZone(node: FileTreeNode) {
+  if (!dropZoneTargetPath.value || !draggedSourcePath.value) {
+    return false;
+  }
+  if (node.absolutePath !== dropZoneTargetPath.value) {
+    return false;
+  }
+
+  const sourcePath = draggedSourcePath.value;
+  const targetPath = dropZoneTargetPath.value;
+
+  if (!isValidMove({
+    sourcePath,
+    targetPath,
+  })) {
+    return false;
+  }
+
+  return true;
+}
 
 const fileContextMenuRef = ref<InstanceType<typeof FileContextMenu> | null>(null);
 function toggleFileContextMenu(
@@ -43,6 +74,7 @@ function toggleFileContextMenu(
       v-for="node in treeNodes"
       :key="node.key"
       :style="style"
+      :class="{ 'bg-gray-800': isNodeInDropZone(node) }"
     >
       <!-- Rename File Entry Mode -->
       <RenameFileEntry
