@@ -2,6 +2,9 @@
 import type {
   FileTreeNode,
 } from "@vast/file-explorer";
+import type {
+  FileTreeInputType,
+} from "../types";
 import {
   computed,
   nextTick,
@@ -14,8 +17,8 @@ import {
 import {
   useFileTreeStore,
 } from "../store";
-import FileEntryIcon from "./file-entry-icon.vue";
-import FolderToggleIcon from "./folder-toggle-icon.vue";
+import FileEntryTemplate from "./file-entry-template.vue";
+import FileTreeInput from "./file-tree-input.vue";
 
 defineProps<{
   node: FileTreeNode;
@@ -25,7 +28,7 @@ const fileTreeStore = useFileTreeStore();
 const renameData = computed(() => fileTreeStore.renameData);
 
 const newName = ref(renameData.value?.name ?? "");
-const renameRef = ref();
+const renameRef = ref<FileTreeInputType | null>();
 const rename = useRename();
 
 function resetAndBlur() {
@@ -46,25 +49,19 @@ async function handleRename() {
 
 onMounted(() => {
   nextTick(() => {
-    renameRef.value.$el.focus();
+    renameRef.value?.focus();
   });
 });
 </script>
 
 <template>
-  <div
-    class="w-full cursor-pointer flex p-0.5 items-center gap-1"
-  >
-    <FolderToggleIcon :node="node" />
-    <FileEntryIcon :node="node" />
-    <InputText
+  <FileEntryTemplate :node="node">
+    <FileTreeInput
       ref="renameRef"
       v-model="newName"
-      pt:root:class="py-0 px-1"
-      type="text"
       @blur="resetAndBlur"
       @keydown.enter="handleRename"
       @keydown.escape="resetAndBlur"
     />
-  </div>
+  </FileEntryTemplate>
 </template>

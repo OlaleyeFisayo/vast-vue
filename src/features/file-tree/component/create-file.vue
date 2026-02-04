@@ -2,6 +2,9 @@
 import type {
   FileTreeNode,
 } from "@vast/file-explorer";
+import type {
+  FileTreeInputType,
+} from "../types";
 import {
   nextTick,
   onMounted,
@@ -16,7 +19,8 @@ import {
 import {
   dummyFileEntryNodeFile,
 } from "../variables";
-import FileEntryIcon from "./file-entry-icon.vue";
+import FileEntryTemplate from "./file-entry-template.vue";
+import FileTreeInput from "./file-tree-input.vue";
 
 const props = defineProps<{
   node: FileTreeNode | null;
@@ -25,12 +29,12 @@ const props = defineProps<{
 const fileTreeStore = useFileTreeStore();
 
 const newFileName = ref("");
-const createFileRef = ref<any>(null);
+const createFileRef = ref<FileTreeInputType | null>(null);
 const create = useCreate();
 
 onMounted(() => {
   nextTick(() => {
-    createFileRef.value?.$el.focus();
+    createFileRef.value?.focus();
   });
 });
 
@@ -56,18 +60,13 @@ async function handleFileCreate() {
 </script>
 
 <template>
-  <div
-    class="w-full cursor-pointer flex p-0.5 items-center gap-1"
-  >
-    <FileEntryIcon :node="dummyFileEntryNodeFile" />
-    <InputText
+  <FileEntryTemplate :node="dummyFileEntryNodeFile">
+    <FileTreeInput
       ref="createFileRef"
       v-model="newFileName"
-      pt:root:class="py-0 px-1"
-      type="text"
       @blur="resetAndBlur"
       @keydown.enter="handleFileCreate"
       @keydown.escape="resetAndBlur"
     />
-  </div>
+  </FileEntryTemplate>
 </template>

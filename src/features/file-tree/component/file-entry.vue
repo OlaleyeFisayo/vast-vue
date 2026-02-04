@@ -22,8 +22,7 @@ import {
 import {
   useFileTreeStore,
 } from "../store";
-import FileEntryIcon from "./file-entry-icon.vue";
-import FolderToggleIcon from "./folder-toggle-icon.vue";
+import FileEntryTemplate from "./file-entry-template.vue";
 
 const props = defineProps<{
   node: FileTreeNode;
@@ -109,9 +108,9 @@ function handleDragStart(node: FileTreeNode) {
 </script>
 
 <template>
-  <button
+  <FileEntryTemplate
     ref="dropZoneRef"
-    class="w-full cursor-pointer flex p-0.5 items-center gap-1"
+    :node="node"
     :class="[
       // Show focus state when the file or folder is selected
       node === fileTreeStore.selectedNode && !fileTreeStore.DragAndDropData.isDragging ? 'bg-gray-800' : '',
@@ -123,14 +122,10 @@ function handleDragStart(node: FileTreeNode) {
     @click="handleClick(node)"
     @contextmenu.prevent="fileTreeStore.toggleFileContextMenu($event, node)"
   >
-    <FolderToggleIcon :node="node" />
     <p
-      class="flex items-center gap-1.5 text-nowrap text-ellipsis"
+      class="flex-1 text-left text-nowrap text-ellipsis overflow-hidden"
     >
-      <FileEntryIcon
-        :node="node"
-      />
       {{ node.name }}
     </p>
-  </button>
+  </FileEntryTemplate>
 </template>

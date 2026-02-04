@@ -2,6 +2,9 @@
 import type {
   FileTreeNode,
 } from "@vast/file-explorer";
+import type {
+  FileTreeInputType,
+} from "../types";
 import {
   nextTick,
   onMounted,
@@ -16,7 +19,8 @@ import {
 import {
   dummyFileEntryNodeFolder,
 } from "../variables";
-import FolderToggleIcon from "./folder-toggle-icon.vue";
+import FileEntryTemplate from "./file-entry-template.vue";
+import FileTreeInput from "./file-tree-input.vue";
 
 const props = defineProps<{
   node: FileTreeNode | null;
@@ -25,12 +29,12 @@ const props = defineProps<{
 const fileTreeStore = useFileTreeStore();
 
 const newFolderName = ref("");
-const createFolderRef = ref<any>(null);
+const createFolderRef = ref<FileTreeInputType | null>(null);
 const create = useCreate();
 
 onMounted(() => {
   nextTick(() => {
-    createFolderRef.value?.$el.focus();
+    createFolderRef.value?.focus();
   });
 });
 
@@ -56,16 +60,13 @@ async function handleFolderCreate() {
 </script>
 
 <template>
-  <div class="w-full cursor-pointer flex p-0.5 items-center gap-1">
-    <FolderToggleIcon :node="dummyFileEntryNodeFolder" />
-    <InputText
+  <FileEntryTemplate :node="dummyFileEntryNodeFolder">
+    <FileTreeInput
       ref="createFolderRef"
       v-model="newFolderName"
-      pt:root:class="py-0 px-1"
-      type="text"
       @blur="resetAndBlur"
       @keydown.enter="handleFolderCreate"
       @keydown.escape="resetAndBlur"
     />
-  </div>
+  </FileEntryTemplate>
 </template>
