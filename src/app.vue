@@ -12,25 +12,23 @@ import {
   ActivityBarList,
 } from "./features/activity-bar/utils/activity-bar-list";
 import {
-  useDropZoneTargetPath,
-} from "./features/file-tree/composables/drop-zone-target-path";
+  useFileTreeStore,
+} from "./features/file-tree/store";
 import HeaderBody from "./features/header/components/header-body.vue";
 
 const activityBarStore = useActivitybarStore();
+const fileTreeStore = useFileTreeStore();
 const cardView = computed(() => {
   const foundList = ActivityBarList.find(list => list.title === activityBarStore.activityInView);
   return foundList?.view;
 });
 
 // drag and Drop for @file-entry.vue
-const {
-  setDropZoneTargetPath,
-  setIsDragging,
-} = useDropZoneTargetPath();
-
 function onDragEnd() {
-  setDropZoneTargetPath(null);
-  setIsDragging(false);
+  fileTreeStore.setDragAndDropData({
+    target: null,
+    isDragging: false,
+  });
 }
 
 onMounted(() => {

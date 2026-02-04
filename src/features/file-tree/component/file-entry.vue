@@ -9,18 +9,8 @@ import {
   ref,
 } from "vue";
 import {
-  useDropZoneTargetPath,
-} from "../composables/drop-zone-target-path";
-import {
-  getParentPath,
-} from "../composables/get-parent-path";
-import {
-  isValidMove,
-} from "../composables/is-valid-move";
-import {
   useCollapseDirectory,
   useExpandDirectory,
-  useMove,
 } from "../queries";
 import {
   useFileTreeStore,
@@ -37,13 +27,6 @@ const fileTreeStore = useFileTreeStore();
 const expandDirectory = useExpandDirectory();
 const collapseDirectory = useCollapseDirectory();
 
-const {
-  setDropZoneTargetPath,
-  setIsDragging,
-  isDragging,
-  setDraggedSourcePath,
-} = useDropZoneTargetPath();
-
 function toggleIcon(node: FileTreeNode) {
   if (node.type === "directory") {
     if (node.expanded)
@@ -57,7 +40,6 @@ function handleClick(node: FileTreeNode) {
   fileTreeStore.setSelectedNode(node);
 }
 // drag and drop of file-entry
-const move = useMove();
 const dropZoneRef = ref<HTMLButtonElement | null>(null);
 const hoverDirectoryTimer = ref<number | undefined>(undefined);
 useDropZone(
@@ -65,8 +47,10 @@ useDropZone(
   {
     onEnter: () => {
       // Get the targetPath whether the parent or directory path
-      const targetPath: string = props.node.type === "directory" ? props.node.absolutePath : getParentPath(props.node);
-      setDropZoneTargetPath(targetPath);
+      const target = props.node;
+      fileTreeStore.setDragAndDropData({
+        target,
+      });
 
       // Expand closed Directories
       if (props.node.type === "directory" && !props.node.expanded) {
@@ -75,7 +59,7 @@ useDropZone(
             expandDirectory.mutate(props.node.absolutePath);
             hoverDirectoryTimer.value = undefined;
           },
-          500,
+          1000,
         );
       }
     },
@@ -84,44 +68,39 @@ useDropZone(
       clearInterval(hoverDirectoryTimer.value);
       hoverDirectoryTimer.value = undefined;
     },
-    onDrop: async (
-      _,
-      event,
-    ) => {
-      setDropZoneTargetPath(null);
+    // onDrop: async (
+    //   _,
+    //   event,
+    // ) => {
+    //   setDropZoneTargetPath(null);
 
-      const sourcePath = event?.dataTransfer?.getData("text/plain");
-      if (!sourcePath)
-        return;
+    //   const sourcePath = event?.dataTransfer?.getData("text/plain");
+    //   if (!sourcePath)
+    //     return;
 
-      const targetPath: string = props.node.type === "directory"
-        ? props.node.absolutePath
-        : getParentPath(props.node);
+    //   const targetPath: string = props.node.type === "directory"
+    //     ? props.node.absolutePath
+    //     : getParentPath(props.node);
 
-      if (!isValidMove({
-        sourcePath,
-        targetPath,
-      })) {
-        return;
-      }
+    //   if (!isValidMove({
+    //     sourcePath,
+    //     targetPath,
+    //   })) {
+    //     return;
+    //   }
 
-      await move.mutateAsync({
-        sourcePath,
-        newPath: targetPath,
-      });
-    },
+    //   await move.mutateAsync({
+    //     sourcePath,
+    //     newPath: targetPath,
+    //   });
+    // },
   },
 );
-function handleDragStart(
-  event: DragEvent,
-  node: FileTreeNode,
-) {
-  setIsDragging(true);
-  setDraggedSourcePath(node.absolutePath);
-  event.dataTransfer?.setData(
-    "text/plain",
-    node.absolutePath,
-  );
+function handleDragStart(node: FileTreeNode) {
+  fileTreeStore.setDragAndDropData({
+    isDragging: true,
+    source: node,
+  });
 }
 </script>
 
@@ -131,12 +110,12 @@ function handleDragStart(
     class="w-full cursor-pointer flex p-0.5 items-center gap-1"
     :class="[
       // Show focus state when the file or folder is selected
-      node === fileTreeStore.selectedNode && !isDragging ? 'bg-gray-800' : '',
+      node === fileTreeStore.selectedNode && !fileTreeStore.DragAndDropData.isDragging ? 'bg-gray-800' : '',
       // Apply hover only when not dragging
-      !isDragging && 'hover:bg-gray-800',
+      !fileTreeStore.DragAndDropData.isDragging && 'hover:bg-gray-800',
     ]"
     :draggable="true"
-    @dragstart="handleDragStart($event, node)"
+    @dragstart="handleDragStart(node)"
     @click="handleClick(node)"
     @contextmenu.prevent="toggleFileContextMenu($event, node)"
   >

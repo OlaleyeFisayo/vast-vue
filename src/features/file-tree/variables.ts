@@ -12,6 +12,7 @@ export const dummyFileEntryNodeFile: FileTreeNode = {
   type: "file",
   name: "",
   absolutePath: "",
+  parentPath: "",
   path: "",
 };
 
@@ -20,6 +21,7 @@ export const dummyFileEntryNodeFolder: FileTreeNode = {
   type: "directory",
   name: "",
   absolutePath: "",
+  parentPath: "",
   path: "",
   childExpanded: false,
   expanded: false,

@@ -14,6 +14,12 @@ export type CreateModeState = {
   node: FileTreeNode | null;
 };
 
+export type DragAndDropState = {
+  isDragging: boolean;
+  source: FileTreeNode | null;
+  target: FileTreeNode | null;
+};
+
 export type UseCopyCutPayload = {
   sourcePath: string;
   newPath?: string;

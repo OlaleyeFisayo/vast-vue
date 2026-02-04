@@ -1,32 +1,41 @@
+import type {
+  FileTreeNode,
+} from "@vast/file-explorer";
+import type {
+  DragAndDropState,
+} from "../types";
 import {
-  getParentPath,
-} from "./get-parent-path";
+  getDropPath,
+} from "./get-drop-path";
 
-type IsValidMoveParams = {
-  sourcePath: string;
-  targetPath: string;
+type IsValidMoveParams = Omit<DragAndDropState, "isDragging"> & {
+  node: FileTreeNode;
 };
 
 export function isValidMove({
-  sourcePath,
-  targetPath,
+  source,
+  target,
+  node,
 }: IsValidMoveParams): boolean {
-  if (!sourcePath || !targetPath)
-    return false;
+  const targetPath = getDropPath(target);
+  const sourcePath = getDropPath(source);
+  const nodePath = getDropPath(node);
+  const targetToNodePath = target?.type === "directory" ? node.absolutePath : node?.parentPath;
 
-  const sourceParentPath = getParentPath({
-    absolutePath: sourcePath,
-  });
+  if (!targetPath || !sourcePath || !nodePath)
+    return false;
 
   // Can't move to its own parent folder
-  if (sourceParentPath === targetPath) {
+  if (sourcePath === targetPath)
     return false;
-  }
 
-  // Can't move a folder into its own sub-folder
-  if (targetPath.startsWith(sourcePath) && sourcePath !== targetPath) {
-    return false;
-  }
+  // // Can't move a folder into its own sub-folder
+  // if (targetPath.startsWith(sourcePath) && sourcePath !== targetPath) {
+  //   return false;
+  // }
 
-  return true;
+  if (targetPath === nodePath || targetPath === targetToNodePath)
+    return true;
+
+  return false;
 }

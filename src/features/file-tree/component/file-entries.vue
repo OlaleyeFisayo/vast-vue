@@ -9,9 +9,6 @@ import {
   ref,
 } from "vue";
 import {
-  useDropZoneTargetPath,
-} from "../composables/drop-zone-target-path";
-import {
   isValidMove,
 } from "../composables/is-valid-move";
 import {
@@ -32,30 +29,20 @@ defineProps<{
 }>();
 
 const fileTreeStore = useFileTreeStore();
-const {
-  dropZoneTargetPath,
-  draggedSourcePath,
-} = useDropZoneTargetPath();
 
 function isNodeInDropZone(node: FileTreeNode) {
-  if (!dropZoneTargetPath.value || !draggedSourcePath.value) {
+  if (!fileTreeStore.DragAndDropData.isDragging)
     return false;
-  }
-  if (node.absolutePath !== dropZoneTargetPath.value) {
-    return false;
-  }
 
-  const sourcePath = draggedSourcePath.value;
-  const targetPath = dropZoneTargetPath.value;
+  const target = fileTreeStore.DragAndDropData.target;
+  const source = fileTreeStore.DragAndDropData.source;
 
-  if (!isValidMove({
-    sourcePath,
-    targetPath,
-  })) {
-    return false;
-  }
-
-  return true;
+  const validMove = isValidMove({
+    target,
+    source,
+    node,
+  });
+  return validMove;
 }
 
 const fileContextMenuRef = ref<InstanceType<typeof FileContextMenu> | null>(null);
@@ -74,7 +61,9 @@ function toggleFileContextMenu(
       v-for="node in treeNodes"
       :key="node.key"
       :style="style"
-      :class="{ 'bg-gray-800': isNodeInDropZone(node) }"
+      :class="{
+        'bg-gray-800': fileTreeStore.DragAndDropData.isDragging && isNodeInDropZone(node),
+      }"
     >
       <!-- Rename File Entry Mode -->
       <RenameFileEntry

@@ -5,6 +5,7 @@ import type {
   ActiveCopyCutMode,
   CopyAndCutModeState,
   CreateModeState,
+  DragAndDropState,
 } from "./types";
 import {
   defineStore,
@@ -64,6 +65,28 @@ export const useFileTreeStore = defineStore(
     const selectedNode = ref<FileTreeNode | null>(null);
     const setSelectedNode = (node: FileTreeNode) => selectedNode.value = node;
 
+    // Drag and Drop
+    const DragAndDropData = reactive<DragAndDropState>({
+      isDragging: false,
+      source: null,
+      target: null,
+    });
+    const setDragAndDropData = ({
+      isDragging,
+      source,
+      target,
+    }: Partial<NonNullable<DragAndDropState>>) => {
+      if (isDragging) {
+        DragAndDropData.isDragging = isDragging;
+      }
+      if (source) {
+        DragAndDropData.source = source;
+      }
+      if (target) {
+        DragAndDropData.target = target;
+      }
+    };
+
     return {
       // Create Mode
       createData,
@@ -80,6 +103,9 @@ export const useFileTreeStore = defineStore(
       // Tracking Selected node
       selectedNode,
       setSelectedNode,
+      // Drag and Drop
+      DragAndDropData,
+      setDragAndDropData,
     };
   },
 );
