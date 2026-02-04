@@ -25,10 +25,7 @@ const cardView = computed(() => {
 
 // drag and Drop for @file-entry.vue
 function onDragEnd() {
-  fileTreeStore.setDragAndDropData({
-    target: null,
-    isDragging: false,
-  });
+  fileTreeStore.resetDragAndDropData();
 }
 
 onMounted(() => {

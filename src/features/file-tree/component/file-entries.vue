@@ -6,9 +6,6 @@ import type {
   StyleValue,
 } from "vue";
 import {
-  ref,
-} from "vue";
-import {
   isValidMove,
 } from "../composables/is-valid-move";
 import {
@@ -19,7 +16,6 @@ import {
 } from "../variables";
 import CreateFile from "./create-file.vue";
 import CreateFolder from "./create-folder.vue";
-import FileContextMenu from "./file-context-menu.vue";
 import FileEntry from "./file-entry.vue";
 import RenameFileEntry from "./rename-file-entry.vue";
 
@@ -44,15 +40,6 @@ function isNodeInDropZone(node: FileTreeNode) {
   });
   return validMove;
 }
-
-const fileContextMenuRef = ref<InstanceType<typeof FileContextMenu> | null>(null);
-function toggleFileContextMenu(
-  event: MouseEvent,
-  node: FileTreeNode,
-) {
-  fileContextMenuRef.value?.show(event);
-  fileTreeStore.setSelectedNode(node);
-}
 </script>
 
 <template>
@@ -74,7 +61,6 @@ function toggleFileContextMenu(
       <FileEntry
         v-else
         :node="node"
-        :toggle-file-context-menu="toggleFileContextMenu"
       />
       <!-- Create Folder -->
       <CreateFolder
@@ -89,7 +75,6 @@ function toggleFileContextMenu(
         v-if="node.type === 'directory' && node.expanded"
         :style="{ marginLeft: FILE_TREE_STATES.fileGap }"
         :tree-nodes="node.children"
-        :toggle-file-context-menu="toggleFileContextMenu"
       />
       <!-- Create File -->
       <CreateFile
@@ -101,7 +86,4 @@ function toggleFileContextMenu(
       />
     </div>
   </template>
-  <FileContextMenu
-    ref="fileContextMenuRef"
-  />
 </template>

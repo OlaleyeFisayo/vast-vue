@@ -6,6 +6,7 @@ import type {
   CopyAndCutModeState,
   CreateModeState,
   DragAndDropState,
+  FileContextMenuRefType,
 } from "./types";
 import {
   defineStore,
@@ -18,6 +19,23 @@ import {
 export const useFileTreeStore = defineStore(
   "fileTree",
   () => {
+    // Tracking Selected node
+    const selectedNode = ref<FileTreeNode | null>(null);
+    const setSelectedNode = (node: FileTreeNode | null) => selectedNode.value = node;
+
+    // File Entry ContextMenu
+    const fileContextMenuRef = ref<FileContextMenuRefType | null>(null);
+    const setFileContentMenuRef = (el: any) => {
+      fileContextMenuRef.value = el;
+    };
+    function toggleFileContextMenu(
+      event: MouseEvent,
+      node: FileTreeNode,
+    ) {
+      setSelectedNode(node);
+      fileContextMenuRef.value?.show(event);
+    }
+
     // Create Mode
     const createData = reactive<CreateModeState>({
       type: null,
@@ -61,10 +79,6 @@ export const useFileTreeStore = defineStore(
       copyAndCutData.source = null;
     };
 
-    // Tracking Selected node
-    const selectedNode = ref<FileTreeNode | null>(null);
-    const setSelectedNode = (node: FileTreeNode) => selectedNode.value = node;
-
     // Drag and Drop
     const DragAndDropData = reactive<DragAndDropState>({
       isDragging: false,
@@ -86,8 +100,21 @@ export const useFileTreeStore = defineStore(
         DragAndDropData.target = target;
       }
     };
+    const resetDragAndDropData = () => {
+      DragAndDropData.target = null;
+      DragAndDropData.source = null;
+      DragAndDropData.isDragging = false;
+      setSelectedNode(null);
+    };
 
     return {
+      // Tracking Selected node
+      selectedNode,
+      setSelectedNode,
+      // File Entry ContextMenu
+      fileContextMenuRef,
+      setFileContentMenuRef,
+      toggleFileContextMenu,
       // Create Mode
       createData,
       enableCreateMode,
@@ -100,12 +127,10 @@ export const useFileTreeStore = defineStore(
       copyAndCutData,
       enableCopyAndCutMode,
       disableCopyAndCutMode,
-      // Tracking Selected node
-      selectedNode,
-      setSelectedNode,
       // Drag and Drop
       DragAndDropData,
       setDragAndDropData,
+      resetDragAndDropData,
     };
   },
 );

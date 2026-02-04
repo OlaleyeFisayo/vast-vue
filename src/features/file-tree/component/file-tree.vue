@@ -1,9 +1,14 @@
 <script lang="ts" setup>
+import type {
+  FileContextMenuRefType,
+} from "../types";
 import {
   onFileTreeUpdate,
 } from "@vast/file-explorer";
 import {
   onMounted,
+  ref,
+  watch,
 } from "vue";
 import {
   useGetFileTree,
@@ -13,6 +18,7 @@ import {
 } from "../store";
 import CreateFile from "./create-file.vue";
 import CreateFolder from "./create-folder.vue";
+import FileContextMenu from "./file-context-menu.vue";
 import FileEntries from "./file-entries.vue";
 
 const {
@@ -27,6 +33,15 @@ onMounted(() => {
     getFileTree();
   });
 });
+
+const fileContextMenu = ref<FileContextMenuRefType | null>(null);
+
+watch(
+  fileContextMenu,
+  (value) => {
+    fileTreeStore.setFileContentMenuRef(value);
+  },
+);
 </script>
 
 <template>
@@ -38,5 +53,8 @@ onMounted(() => {
   <CreateFile
     v-if="fileTreeStore.createData.node === null && fileTreeStore.createData.type === 'file'"
     :node="null"
+  />
+  <FileContextMenu
+    ref="fileContextMenu"
   />
 </template>

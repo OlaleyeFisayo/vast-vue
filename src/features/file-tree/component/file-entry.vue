@@ -9,8 +9,15 @@ import {
   ref,
 } from "vue";
 import {
+  getDropPath,
+} from "../composables/get-drop-path";
+import {
+  isValidMove,
+} from "../composables/is-valid-move";
+import {
   useCollapseDirectory,
   useExpandDirectory,
+  useMove,
 } from "../queries";
 import {
   useFileTreeStore,
@@ -20,12 +27,14 @@ import FolderToggleIcon from "./folder-toggle-icon.vue";
 
 const props = defineProps<{
   node: FileTreeNode;
-  toggleFileContextMenu: (event: MouseEvent, node: FileTreeNode) => void;
 }>();
 
 const fileTreeStore = useFileTreeStore();
 const expandDirectory = useExpandDirectory();
 const collapseDirectory = useCollapseDirectory();
+const {
+  mutateAsync: move,
+} = useMove();
 
 function toggleIcon(node: FileTreeNode) {
   if (node.type === "directory") {
@@ -41,15 +50,14 @@ function handleClick(node: FileTreeNode) {
 }
 // drag and drop of file-entry
 const dropZoneRef = ref<HTMLButtonElement | null>(null);
-const hoverDirectoryTimer = ref<number | undefined>(undefined);
+const hoverDirectoryTimer = ref<number | null>(null);
 useDropZone(
   dropZoneRef,
   {
     onEnter: () => {
       // Get the targetPath whether the parent or directory path
-      const target = props.node;
       fileTreeStore.setDragAndDropData({
-        target,
+        target: props.node,
       });
 
       // Expand closed Directories
@@ -57,43 +65,39 @@ useDropZone(
         hoverDirectoryTimer.value = setTimeout(
           () => {
             expandDirectory.mutate(props.node.absolutePath);
-            hoverDirectoryTimer.value = undefined;
+            hoverDirectoryTimer.value = null;
           },
-          1000,
+          650,
         );
       }
     },
     onLeave: () => {
       // Stop timer when you leave the drag
-      clearInterval(hoverDirectoryTimer.value);
-      hoverDirectoryTimer.value = undefined;
+      clearInterval(hoverDirectoryTimer.value!);
+      hoverDirectoryTimer.value = null;
     },
-    // onDrop: async (
-    //   _,
-    //   event,
-    // ) => {
-    //   setDropZoneTargetPath(null);
+    onDrop: async () => {
+      const target = fileTreeStore.DragAndDropData.target;
+      const source = fileTreeStore.DragAndDropData.source;
 
-    //   const sourcePath = event?.dataTransfer?.getData("text/plain");
-    //   if (!sourcePath)
-    //     return;
+      if (!source)
+        return;
 
-    //   const targetPath: string = props.node.type === "directory"
-    //     ? props.node.absolutePath
-    //     : getParentPath(props.node);
+      const targetPath = getDropPath(target);
+      const validMove = isValidMove({
+        target,
+        source,
+        node: props.node,
+      });
 
-    //   if (!isValidMove({
-    //     sourcePath,
-    //     targetPath,
-    //   })) {
-    //     return;
-    //   }
+      if (!validMove)
+        return;
 
-    //   await move.mutateAsync({
-    //     sourcePath,
-    //     newPath: targetPath,
-    //   });
-    // },
+      await move({
+        sourcePath: source?.absolutePath,
+        newPath: targetPath,
+      });
+    },
   },
 );
 function handleDragStart(node: FileTreeNode) {
@@ -117,7 +121,7 @@ function handleDragStart(node: FileTreeNode) {
     :draggable="true"
     @dragstart="handleDragStart(node)"
     @click="handleClick(node)"
-    @contextmenu.prevent="toggleFileContextMenu($event, node)"
+    @contextmenu.prevent="fileTreeStore.toggleFileContextMenu($event, node)"
   >
     <FolderToggleIcon :node="node" />
     <p
