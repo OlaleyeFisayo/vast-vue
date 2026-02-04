@@ -29,10 +29,9 @@ export function isValidMove({
   if (sourcePath === targetPath)
     return false;
 
-  // // Can't move a folder into its own sub-folder
-  // if (targetPath.startsWith(sourcePath) && sourcePath !== targetPath) {
-  //   return false;
-  // }
+  // // Can't move a folder into its own sub-folder and parent folder
+  if (source?.type === "directory" && (targetPath.startsWith(source.absolutePath) || targetPath === source.parentPath))
+    return false;
 
   if (targetPath === nodePath || targetPath === targetToNodePath)
     return true;

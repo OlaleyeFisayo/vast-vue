@@ -39,6 +39,7 @@ function items(): MenuItem[] {
   if (fileTreeStore.selectedNode) {
     const node = fileTreeStore.selectedNode;
     const isDirectory = node.type === "directory";
+    const isDirectoryExpanded = isDirectory && !node.expanded;
     const absolutePath = node.absolutePath;
     const relativePath = node.key;
     const copyAndCutMode = fileTreeStore.copyAndCutData.mode;
@@ -49,7 +50,7 @@ function items(): MenuItem[] {
         label: "New File...",
         visible: isDirectory,
         command: async () => {
-          if (isDirectory && !node.expanded) {
+          if (isDirectoryExpanded) {
             await expandDirectory.mutateAsync(node.absolutePath);
           }
           fileTreeStore.enableCreateMode(
@@ -62,7 +63,7 @@ function items(): MenuItem[] {
         label: "New Folder...",
         visible: isDirectory,
         command: async () => {
-          if (isDirectory && !node.expanded) {
+          if (isDirectoryExpanded) {
             await expandDirectory.mutateAsync(node.absolutePath);
           }
           fileTreeStore.enableCreateMode(
