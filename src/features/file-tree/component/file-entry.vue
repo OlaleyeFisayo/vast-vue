@@ -113,9 +113,7 @@ function handleDragStart(node: FileTreeNode) {
     :node="node"
     :class="[
       // Show focus state when the file or folder is selected
-      node === fileTreeStore.selectedNode && !fileTreeStore.DragAndDropData.isDragging ? 'bg-gray-800' : '',
-      // Apply hover only when not dragging
-      !fileTreeStore.DragAndDropData.isDragging && 'hover:bg-gray-800',
+      node.key === fileTreeStore.selectedNode?.key && !fileTreeStore.DragAndDropData.isDragging && 'bg-gray-800 hover:bg-gray-800',
     ]"
     :draggable="true"
     @dragstart="handleDragStart(node)"
