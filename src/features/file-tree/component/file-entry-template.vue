@@ -23,7 +23,7 @@ defineExpose({
   <div
     ref="rootEl"
     v-bind="$attrs"
-    class="w-full cursor-pointer flex p-0.5 items-center gap-1"
+    class="cursor-pointer flex py-0.5 items-center gap-1"
   >
     <FolderToggleIcon :node="node" />
     <FileEntryIcon :node="node" />

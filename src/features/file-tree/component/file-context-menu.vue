@@ -12,6 +12,9 @@ import {
   copyCutFileEntry,
 } from "../composables/copy-cut-file-entry";
 import {
+  handleCreateMode,
+} from "../composables/handle-create-mode";
+import {
   useCopy,
   useDelete,
   useExpandDirectory,
@@ -39,7 +42,6 @@ function items(): MenuItem[] {
   if (fileTreeStore.selectedNode) {
     const node = fileTreeStore.selectedNode;
     const isDirectory = node.type === "directory";
-    const isDirectoryExpanded = isDirectory && !node.expanded;
     const absolutePath = node.absolutePath;
     const relativePath = node.key;
     const copyAndCutMode = fileTreeStore.copyAndCutData.mode;
@@ -49,28 +51,20 @@ function items(): MenuItem[] {
       {
         label: "New File...",
         visible: isDirectory,
-        command: async () => {
-          if (isDirectoryExpanded) {
-            await expandDirectory.mutateAsync(node.absolutePath);
-          }
-          fileTreeStore.enableCreateMode(
-            "file",
-            node,
-          );
-        },
+        command: async () => await handleCreateMode({
+          fileTreeStore,
+          type: "file",
+          expandDirectory,
+        }),
       },
       {
         label: "New Folder...",
         visible: isDirectory,
-        command: async () => {
-          if (isDirectoryExpanded) {
-            await expandDirectory.mutateAsync(node.absolutePath);
-          }
-          fileTreeStore.enableCreateMode(
-            "directory",
-            node,
-          );
-        },
+        command: async () => await handleCreateMode({
+          fileTreeStore,
+          type: "directory",
+          expandDirectory,
+        }),
       },
       {
         separator: true,
@@ -129,7 +123,10 @@ function items(): MenuItem[] {
       },
       {
         label: "Delete",
-        command: async () => deleteFn.mutateAsync(absolutePath),
+        command: async () => {
+          deleteFn.mutateAsync(absolutePath);
+          fileTreeStore.setSelectedNode(null);
+        },
       },
     ];
   }

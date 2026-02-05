@@ -3,8 +3,8 @@ import type {
 } from "@vast/file-explorer";
 
 export const FILE_TREE_STATES = {
-  fileGap: "1rem",
-  iconSize: "1rem",
+  fileGap: "1rem !important",
+  iconSize: "1rem !important",
 };
 
 export const dummyFileEntryNodeFile: FileTreeNode = {

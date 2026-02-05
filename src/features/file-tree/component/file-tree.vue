@@ -45,16 +45,16 @@ watch(
 </script>
 
 <template>
-  <CreateFolder
-    v-if="fileTreeStore.createData.node === null && fileTreeStore.createData.type === 'directory'"
-    :node="null"
-  />
-  <FileEntries :tree-nodes="TreeNodes" />
-  <CreateFile
-    v-if="fileTreeStore.createData.node === null && fileTreeStore.createData.type === 'file'"
-    :node="null"
-  />
-  <FileContextMenu
-    ref="fileContextMenu"
-  />
+  <section class="w-full">
+    <CreateFolder
+      v-if="fileTreeStore.createData.node === null && fileTreeStore.createData.type === 'directory'"
+    />
+    <FileEntries :tree-nodes="TreeNodes" />
+    <CreateFile
+      v-if="fileTreeStore.createData.node === null && fileTreeStore.createData.type === 'file'"
+    />
+    <FileContextMenu
+      ref="fileContextMenu"
+    />
+  </section>
 </template>

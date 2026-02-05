@@ -18,7 +18,7 @@ export async function copyCutFileEntry(
   newPath?: FileTreeNode,
   expandDirectory?: ReturnType<typeof useExpandDirectory>,
 ) {
-  if (newPath && newPath.type === "directory" && newPath.expanded === false && expandDirectory) {
+  if (newPath && newPath.type === "directory" && !newPath.expanded && expandDirectory) {
     await expandDirectory.mutateAsync(newPath.absolutePath);
   }
   if (mode === "copy") {

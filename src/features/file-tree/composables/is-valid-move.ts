@@ -5,8 +5,8 @@ import type {
   DragAndDropState,
 } from "../types";
 import {
-  getDropPath,
-} from "./get-drop-path";
+  getFolderPath,
+} from "./get-folder-path";
 
 type IsValidMoveParams = Omit<DragAndDropState, "isDragging"> & {
   node: FileTreeNode;
@@ -17,9 +17,9 @@ export function isValidMove({
   target,
   node,
 }: IsValidMoveParams): boolean {
-  const targetPath = getDropPath(target);
-  const sourcePath = getDropPath(source);
-  const nodePath = getDropPath(node);
+  const targetPath = getFolderPath(target);
+  const sourcePath = getFolderPath(source);
+  const nodePath = getFolderPath(node);
   const targetToNodePath = target?.type === "directory" ? node.absolutePath : node?.parentPath;
 
   if (!targetPath || !sourcePath || !nodePath)

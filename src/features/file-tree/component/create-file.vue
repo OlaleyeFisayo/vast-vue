@@ -11,6 +11,9 @@ import {
   ref,
 } from "vue";
 import {
+  getFolderPath,
+} from "../composables/get-folder-path";
+import {
   useCreate,
 } from "../queries";
 import {
@@ -23,7 +26,7 @@ import FileEntryTemplate from "./file-entry-template.vue";
 import FileTreeInput from "./file-tree-input.vue";
 
 const props = defineProps<{
-  node: FileTreeNode | null;
+  node?: FileTreeNode;
 }>();
 
 const fileTreeStore = useFileTreeStore();
@@ -49,7 +52,7 @@ async function handleFileCreate() {
       {
         type: "file",
         name: newFileName.value,
-        path: props.node?.absolutePath,
+        path: props.node ? getFolderPath(props.node) : undefined,
       },
       {
         onSuccess: () => resetAndBlur(),

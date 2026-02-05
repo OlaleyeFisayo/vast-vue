@@ -9,8 +9,8 @@ import {
   ref,
 } from "vue";
 import {
-  getDropPath,
-} from "../composables/get-drop-path";
+  getFolderPath,
+} from "../composables/get-folder-path";
 import {
   isValidMove,
 } from "../composables/is-valid-move";
@@ -36,16 +36,25 @@ const {
 } = useMove();
 
 function toggleIcon(node: FileTreeNode) {
+  const newNode: FileTreeNode = {
+    ...node,
+    ...(node.type === "directory"
+      ? {
+          expanded: !node.expanded,
+        }
+      : {}),
+  };
   if (node.type === "directory") {
     if (node.expanded)
       collapseDirectory.mutate(node.absolutePath);
     else expandDirectory.mutate(node.absolutePath);
   }
+  return newNode;
 };
 
-function handleClick(node: FileTreeNode) {
-  toggleIcon(node);
-  fileTreeStore.setSelectedNode(node);
+async function handleClick(node: FileTreeNode) {
+  const newNode = toggleIcon(node);
+  fileTreeStore.setSelectedNode(newNode);
 }
 // drag and drop of file-entry
 const dropZoneRef = ref<HTMLButtonElement | null>(null);
@@ -82,7 +91,7 @@ useDropZone(
       if (!source)
         return;
 
-      const targetPath = getDropPath(target);
+      const targetPath = getFolderPath(target);
       const validMove = isValidMove({
         target,
         source,
@@ -113,7 +122,8 @@ function handleDragStart(node: FileTreeNode) {
     :node="node"
     :class="[
       // Show focus state when the file or folder is selected
-      node.key === fileTreeStore.selectedNode?.key && !fileTreeStore.DragAndDropData.isDragging && 'bg-gray-800 hover:bg-gray-800',
+      node.key === fileTreeStore.selectedNode?.key && !fileTreeStore.DragAndDropData.isDragging && 'bg-gray-800',
+      !fileTreeStore.DragAndDropData.isDragging && 'hover:bg-gray-800',
     ]"
     :draggable="true"
     @dragstart="handleDragStart(node)"
@@ -121,7 +131,7 @@ function handleDragStart(node: FileTreeNode) {
     @contextmenu.prevent="fileTreeStore.toggleFileContextMenu($event, node)"
   >
     <p
-      class="flex-1 text-left text-nowrap text-ellipsis overflow-hidden"
+      class="text-left text-nowrap text-ellipsis overflow-hidden"
     >
       {{ node.name }}
     </p>

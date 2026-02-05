@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import type {
+  HandleCreateModePayload,
+} from "../composables/handle-create-mode";
 import {
   IconClipboard,
   IconFilePlus,
@@ -15,7 +18,12 @@ import {
   copyCutFileEntry,
 } from "../composables/copy-cut-file-entry";
 import {
+  handleCreateMode,
+
+} from "../composables/handle-create-mode";
+import {
   useCopy,
+  useExpandDirectory,
   useGetFileTree,
   useMove,
 } from "../queries";
@@ -29,17 +37,24 @@ const copyAndCutMode = computed(() => fileTreeStore.copyAndCutData.mode);
 const copyAndCuteSource = computed(() => fileTreeStore.copyAndCutData.source);
 const copy = useCopy();
 const move = useMove();
+const expandDirectory = useExpandDirectory();
 
 const fileTreeContainerActions = computed(() => [
   {
     title: "New File",
     icon: IconFilePlus,
-    action: () => fileTreeStore.enableCreateMode("file"),
+    action: async (payload: Omit<HandleCreateModePayload, "type">) => await handleCreateMode({
+      ...payload,
+      type: "file",
+    }),
   },
   {
     title: "New Folder",
     icon: IconFolderPlus,
-    action: () => fileTreeStore.enableCreateMode("directory"),
+    action: async (payload: Omit<HandleCreateModePayload, "type">) => await handleCreateMode({
+      ...payload,
+      type: "directory",
+    }),
   },
   {
     title: "Paste",
@@ -73,7 +88,10 @@ const fileTreeContainerActions = computed(() => [
         }"
         class="cursor-pointer hover:bg-gray-800 p-1.5"
         type="button"
-        @click="action"
+        @click="async () => action({
+          expandDirectory,
+          fileTreeStore,
+        })"
       >
         <component
           :is="icon"

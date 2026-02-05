@@ -53,7 +53,7 @@ onUnmounted(() => {
         <Card
           pt:root:class="max-w-[270px] rounded-none h-full"
           pt:body:class="p-0 h-full"
-          pt:content:class="overflow-y-auto p-2 w-full overflow-x-hidden"
+          pt:content:class="overflow-y-auto p-0 w-full overflow-x-hidden"
         >
           <template
             v-if="cardView"

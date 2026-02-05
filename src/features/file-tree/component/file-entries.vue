@@ -57,16 +57,14 @@ function isNodeInDropZone(node: FileTreeNode) {
         v-if="node.key === fileTreeStore.renameData?.key"
         :node="node"
       />
-      <!-- File Entry Mode -->
+      <!-- File/Folder Entry Mode -->
       <FileEntry
         v-else
         :node="node"
       />
       <!-- Create Folder -->
       <CreateFolder
-        v-if="node.type === 'directory'
-          && node.expanded
-          && fileTreeStore.createData.node?.key === node.key && fileTreeStore.createData.type === 'directory'"
+        v-if="((fileTreeStore.createData.node?.type === 'file' && fileTreeStore.createData.node.parentPath === node.absolutePath) || (fileTreeStore.createData.node?.type === 'directory' && fileTreeStore.createData.node?.absolutePath === node.absolutePath)) && fileTreeStore.createData.type === 'directory'"
         :node="node"
         :style="{ marginLeft: FILE_TREE_STATES.fileGap }"
       />
@@ -78,9 +76,7 @@ function isNodeInDropZone(node: FileTreeNode) {
       />
       <!-- Create File -->
       <CreateFile
-        v-if="node.type === 'directory'
-          && node.expanded
-          && fileTreeStore.createData.node?.key === node.key && fileTreeStore.createData.type === 'file'"
+        v-if="((fileTreeStore.createData.node?.type === 'file' && fileTreeStore.createData.node.parentPath === node.absolutePath) || (fileTreeStore.createData.node?.type === 'directory' && fileTreeStore.createData.node?.absolutePath === node.absolutePath)) && fileTreeStore.createData.type === 'file'"
         :node="node"
         :style="{ marginLeft: FILE_TREE_STATES.fileGap }"
       />

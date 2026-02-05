@@ -4,10 +4,8 @@ import FileTree from "./file-tree.vue";
 </script>
 
 <template>
-  <main class="w-full overflow-hidden space-y-2">
+  <main class="w-full space-y-2">
     <FileTreeContainerActions />
-    <section>
-      <FileTree />
-    </section>
+    <FileTree />
   </main>
 </template>

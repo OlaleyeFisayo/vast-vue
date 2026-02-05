@@ -15,7 +15,7 @@ defineExpose({
   <InputText
     ref="rootEl"
     v-bind="$attrs"
-    pt:root:class="py-0 px-1 flex-1"
+    pt:root:class="py-0 px-1"
     type="text"
   />
 </template>
