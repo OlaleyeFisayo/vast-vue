@@ -18,19 +18,27 @@ import {
   deleteItem,
   expandDirectory,
   getFileTree,
-  getRootPathBasename,
+  getRootInfo,
   move,
   openInFileManager,
   rename,
 } from "@vast/file-explorer";
 import {
+  useFileTreeStore,
+} from "./store";
+import {
   API_KEY,
 } from "./variables";
 
-export function useRootPathBasename() {
+export function useGetRootInfo() {
+  const fileTreeStore = useFileTreeStore();
   return useQuery({
     queryKey: API_KEY.fileName,
-    queryFn: getRootPathBasename,
+    queryFn: async () => {
+      const data = await getRootInfo();
+      fileTreeStore.setRootPath(data.rootPath);
+      return data;
+    },
     staleTime: Infinity,
   });
 }

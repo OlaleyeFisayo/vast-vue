@@ -19,6 +19,10 @@ import {
 export const useFileTreeStore = defineStore(
   "fileTree",
   () => {
+    // rootDir path
+    const rootPath = ref<string>("");
+    const setRootPath = (path: string) => rootPath.value = path;
+
     // Tracking Selected node
     const selectedNode = ref<FileTreeNode | null>(null);
     const setSelectedNode = (node: FileTreeNode | null) => selectedNode.value = node;
@@ -108,6 +112,9 @@ export const useFileTreeStore = defineStore(
     };
 
     return {
+      // rootPath
+      rootPath,
+      setRootPath,
       // Tracking Selected node
       selectedNode,
       setSelectedNode,

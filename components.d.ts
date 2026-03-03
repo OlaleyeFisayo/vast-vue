@@ -11,7 +11,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    Card: typeof import('primevue/card')['default']
     ContextMenu: typeof import('primevue/contextmenu')['default']
     ContextMenuContent: typeof import('reka-ui')['ContextMenuContent']
     ContextMenuItem: typeof import('reka-ui')['ContextMenuItem']
@@ -19,17 +18,11 @@ declare module 'vue' {
     ContextMenuRoot: typeof import('reka-ui')['ContextMenuRoot']
     ContextMenuSeparator: typeof import('reka-ui')['ContextMenuSeparator']
     ContextMenuTrigger: typeof import('reka-ui')['ContextMenuTrigger']
-    InputText: typeof import('primevue/inputtext')['default']
     Separator: typeof import('reka-ui')['Separator']
-    Toast: typeof import('primevue/toast')['default']
-    TooltipArrow: typeof import('reka-ui')['TooltipArrow']
     TooltipContent: typeof import('reka-ui')['TooltipContent']
     TooltipPortal: typeof import('reka-ui')['TooltipPortal']
     TooltipProvider: typeof import('reka-ui')['TooltipProvider']
     TooltipRoot: typeof import('reka-ui')['TooltipRoot']
     TooltipTrigger: typeof import('reka-ui')['TooltipTrigger']
-  }
-  export interface GlobalDirectives {
-    Tooltip: typeof import('primevue/tooltip')['default']
   }
 }

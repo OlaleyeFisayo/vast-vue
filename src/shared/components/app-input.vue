@@ -26,6 +26,6 @@ defineExpose({
     v-bind="$attrs"
     v-model="model"
     :type="type"
-    class="py-0 px-1 w-full"
+    class="py-0 px-1 w-full border border-border bg-surface-base focus:border-none"
   >
 </template>

@@ -22,14 +22,16 @@ import {
   useCopy,
   useExpandDirectory,
   useFileTree,
+  useGetRootInfo,
   useMove,
-  useRootPathBasename,
 } from "../queries";
 import {
   useFileTreeStore,
 } from "../store";
 
-const rootPathBaseName = useRootPathBasename();
+const {
+  data: rootInfo,
+} = useGetRootInfo();
 const fileTree = useFileTree();
 
 const fileTreeStore = useFileTreeStore();
@@ -44,16 +46,16 @@ const fileTreeContainerActions = computed(() => [
     title: "New File",
     icon: IconFilePlus,
     action: async (payload: Omit<HandleCreateModePayload, "type">) => await handleCreateMode({
-      ...payload,
       type: "file",
+      ...payload,
     }),
   },
   {
     title: "New Folder",
     icon: IconFolderPlus,
     action: async (payload: Omit<HandleCreateModePayload, "type">) => await handleCreateMode({
-      ...payload,
       type: "directory",
+      ...payload,
     }),
   },
   {
@@ -78,7 +80,7 @@ const fileTreeContainerActions = computed(() => [
 <template>
   <section class="flex gap-2 justify-between items-center pl-4 pr-2 py-4 border-b border-border">
     <h1 class="text-xl font-bold">
-      {{ rootPathBaseName.data }}
+      {{ rootInfo?.basename }}
     </h1>
     <section class="flex gap-1">
       <template

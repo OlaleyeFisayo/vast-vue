@@ -21,7 +21,7 @@ const rootEl = ref<HTMLDivElement | null>(null);
 const fileTreeStore = useFileTreeStore();
 
 const highlightConditions = computed(() => {
-  return !fileTreeStore.DragAndDropData.isDragging && !fileTreeStore.renameData && !fileTreeStore.createData.type;
+  return !fileTreeStore.DragAndDropData.isDragging && !fileTreeStore.renameData;
 });
 
 defineExpose({

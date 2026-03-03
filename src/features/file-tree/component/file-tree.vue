@@ -47,6 +47,15 @@ function handleClick() {
   fileTreeStore.setSelectedNode(null);
 }
 
+function shouldShowCreate() {
+  const {
+    createData,
+    rootPath,
+  } = fileTreeStore;
+
+  return createData.node === null || (createData.node.parentPath === rootPath && createData.node.type !== "directory");
+}
+
 watch(
   fileContextMenu,
   (value) => {
@@ -61,11 +70,11 @@ watch(
     @click="handleClick"
   >
     <CreateFolder
-      v-if="fileTreeStore.createData.node === null && fileTreeStore.createData.type === 'directory'"
+      v-if="shouldShowCreate() && fileTreeStore.createData.type === 'directory'"
     />
     <FileEntries :tree-nodes="TreeNodes" />
     <CreateFile
-      v-if="fileTreeStore.createData.node === null && fileTreeStore.createData.type === 'file'"
+      v-if="shouldShowCreate() && fileTreeStore.createData.type === 'file'"
     />
     <FileContextMenu
       ref="fileContextMenu"

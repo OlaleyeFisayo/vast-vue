@@ -26,6 +26,17 @@ defineProps<{
 
 const fileTreeStore = useFileTreeStore();
 
+function shouldShowCreate(node: FileTreeNode) {
+  const {
+    createData,
+  } = fileTreeStore;
+
+  return (
+    (createData.node?.type === "file" && createData.node.parentPath === node.absolutePath)
+    || (createData.node?.type === "directory" && createData.node?.absolutePath === node.absolutePath)
+  );
+}
+
 function isNodeInDropZone(node: FileTreeNode) {
   if (!fileTreeStore.DragAndDropData.isDragging)
     return false;
@@ -64,7 +75,7 @@ function isNodeInDropZone(node: FileTreeNode) {
       />
       <!-- Create Folder -->
       <CreateFolder
-        v-if="((fileTreeStore.createData.node?.type === 'file' && fileTreeStore.createData.node.parentPath === node.absolutePath) || (fileTreeStore.createData.node?.type === 'directory' && fileTreeStore.createData.node?.absolutePath === node.absolutePath)) && fileTreeStore.createData.type === 'directory'"
+        v-if="shouldShowCreate(node) && fileTreeStore.createData.type === 'directory'"
         :node="node"
         :style="{ marginLeft: FILE_TREE_STATES.fileGap }"
       />
@@ -76,7 +87,7 @@ function isNodeInDropZone(node: FileTreeNode) {
       />
       <!-- Create File -->
       <CreateFile
-        v-if="((fileTreeStore.createData.node?.type === 'file' && fileTreeStore.createData.node.parentPath === node.absolutePath) || (fileTreeStore.createData.node?.type === 'directory' && fileTreeStore.createData.node?.absolutePath === node.absolutePath)) && fileTreeStore.createData.type === 'file'"
+        v-if="shouldShowCreate(node) && fileTreeStore.createData.type === 'file'"
         :node="node"
         :style="{ marginLeft: FILE_TREE_STATES.fileGap }"
       />
