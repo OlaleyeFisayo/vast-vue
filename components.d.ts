@@ -11,22 +11,11 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    ContextMenu: typeof import('primevue/contextmenu')['default']
-    ContextMenuArrow: typeof import('reka-ui')['ContextMenuArrow']
-    ContextMenuCheckboxItem: typeof import('reka-ui')['ContextMenuCheckboxItem']
     ContextMenuContent: typeof import('reka-ui')['ContextMenuContent']
-    ContextMenuGroup: typeof import('reka-ui')['ContextMenuGroup']
     ContextMenuItem: typeof import('reka-ui')['ContextMenuItem']
-    ContextMenuItemIndicator: typeof import('reka-ui')['ContextMenuItemIndicator']
-    ContextMenuLabel: typeof import('reka-ui')['ContextMenuLabel']
     ContextMenuPortal: typeof import('reka-ui')['ContextMenuPortal']
-    ContextMenuRadioGroup: typeof import('reka-ui')['ContextMenuRadioGroup']
-    ContextMenuRadioItem: typeof import('reka-ui')['ContextMenuRadioItem']
     ContextMenuRoot: typeof import('reka-ui')['ContextMenuRoot']
     ContextMenuSeparator: typeof import('reka-ui')['ContextMenuSeparator']
-    ContextMenuSub: typeof import('reka-ui')['ContextMenuSub']
-    ContextMenuSubContent: typeof import('reka-ui')['ContextMenuSubContent']
-    ContextMenuSubTrigger: typeof import('reka-ui')['ContextMenuSubTrigger']
     ContextMenuTrigger: typeof import('reka-ui')['ContextMenuTrigger']
     Separator: typeof import('reka-ui')['Separator']
     TooltipContent: typeof import('reka-ui')['TooltipContent']

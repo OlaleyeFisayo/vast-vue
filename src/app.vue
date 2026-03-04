@@ -1,4 +1,15 @@
 <script setup lang="ts">
+import ActivityBarBody from "@features/activity-bar/components/activity-bar-body.vue";
+import {
+  useActivitybarStore,
+} from "@features/activity-bar/store";
+import {
+  ActivityBarList,
+} from "@features/activity-bar/variables";
+import Canvas from "@features/canvas/components/canvas.vue";
+import {
+  useFileTreeStore,
+} from "@features/file-tree/store";
 import {
   computed,
   onMounted,
@@ -7,16 +18,6 @@ import {
 import {
   Toaster,
 } from "vue-sonner";
-import ActivityBarBody from "./features/activity-bar/components/activity-bar-body.vue";
-import {
-  useActivitybarStore,
-} from "./features/activity-bar/store";
-import {
-  ActivityBarList,
-} from "./features/activity-bar/variables";
-import {
-  useFileTreeStore,
-} from "./features/file-tree/store";
 
 const activityBarStore = useActivitybarStore();
 const fileTreeStore = useFileTreeStore();
@@ -52,12 +53,13 @@ onUnmounted(() => {
   />
   <main class="w-full h-dvh flex flex-row bg-surface-base">
     <ActivityBarBody />
-    <section class="h-dvh w-67.5 overflow-hidden bg-surface-raised border-r border-border">
+    <section class="h-dvh w-67.5! shrink-0 overflow-hidden bg-surface-raised border-r border-border">
       <template
         v-if="cardView"
       >
         <component :is="cardView" />
       </template>
     </section>
+    <Canvas class="flex-1" />
   </main>
 </template>

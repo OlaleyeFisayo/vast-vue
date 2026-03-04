@@ -19,6 +19,10 @@ export default defineConfig({
         __dirname,
         "src/shared",
       ),
+      "@features": resolve(
+        __dirname,
+        "src/features",
+      ),
     },
   },
   plugins: [
