@@ -18,7 +18,6 @@ const vueApp = createApp(app);
 
 vueApp.use(pinia);
 
-// Tanstack Query — global error handler toasts all mutation errors
 vueApp.use(
   VueQueryPlugin,
   {
