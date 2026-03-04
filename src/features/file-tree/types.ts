@@ -1,7 +1,6 @@
 import type {
   FileTreeNode,
 } from "@vast/file-explorer";
-import type FileContextMenu from "./component/file-context-menu.vue";
 
 export type ActiveCopyCutMode = "cut" | "copy";
 
@@ -36,5 +35,3 @@ export type UseRenamePayload = {
   path: string;
   name: string;
 };
-
-export type FileContextMenuRefType = InstanceType<typeof FileContextMenu>;

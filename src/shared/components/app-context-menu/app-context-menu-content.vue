@@ -3,9 +3,6 @@ import type {
   ContextMenuContentEmits,
   ContextMenuContentProps,
 } from "reka-ui";
-import {
-  ContextMenuContent,
-} from "reka-ui";
 
 defineProps<ContextMenuContentProps>();
 defineEmits<ContextMenuContentEmits>();
@@ -14,6 +11,7 @@ defineEmits<ContextMenuContentEmits>();
 <template>
   <ContextMenuContent
     v-bind="$props"
+    class="bg-surface-overlay border border-border rounded-md p-1.5 space-y-1"
   >
     <slot />
   </ContextMenuContent>

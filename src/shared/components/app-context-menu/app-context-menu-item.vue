@@ -3,9 +3,6 @@ import type {
   ContextMenuItemEmits,
   ContextMenuItemProps,
 } from "reka-ui";
-import {
-  ContextMenuItem,
-} from "reka-ui";
 
 defineProps<ContextMenuItemProps>();
 defineEmits<ContextMenuItemEmits>();
@@ -14,6 +11,7 @@ defineEmits<ContextMenuItemEmits>();
 <template>
   <ContextMenuItem
     v-bind="$props"
+    class="px-2 py-1 cursor-pointer hover:bg-vue-dark rounded-sm text-text-primary outline-none!"
   >
     <slot />
   </ContextMenuItem>

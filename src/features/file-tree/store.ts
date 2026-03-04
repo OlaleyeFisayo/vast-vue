@@ -6,7 +6,6 @@ import type {
   CopyAndCutModeState,
   CreateModeState,
   DragAndDropState,
-  FileContextMenuRefType,
 } from "./types";
 import {
   defineStore,
@@ -26,19 +25,6 @@ export const useFileTreeStore = defineStore(
     // Tracking Selected node
     const selectedNode = ref<FileTreeNode | null>(null);
     const setSelectedNode = (node: FileTreeNode | null) => selectedNode.value = node;
-
-    // File Entry ContextMenu
-    const fileContextMenuRef = ref<FileContextMenuRefType | null>(null);
-    const setFileContentMenuRef = (el: any) => {
-      fileContextMenuRef.value = el;
-    };
-    function toggleFileContextMenu(
-      event: MouseEvent,
-      node: FileTreeNode,
-    ) {
-      setSelectedNode(node);
-      fileContextMenuRef.value?.show(event);
-    }
 
     // Create Mode
     const createData = reactive<CreateModeState>({
@@ -118,10 +104,6 @@ export const useFileTreeStore = defineStore(
       // Tracking Selected node
       selectedNode,
       setSelectedNode,
-      // File Entry ContextMenu
-      fileContextMenuRef,
-      setFileContentMenuRef,
-      toggleFileContextMenu,
       // Create Mode
       createData,
       enableCreateMode,

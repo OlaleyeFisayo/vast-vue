@@ -2,9 +2,6 @@
 import type {
   ContextMenuTriggerProps,
 } from "reka-ui";
-import {
-  ContextMenuTrigger,
-} from "reka-ui";
 
 defineProps<ContextMenuTriggerProps>();
 </script>

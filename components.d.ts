@@ -12,8 +12,10 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ContextMenu: typeof import('primevue/contextmenu')['default']
+    ContextMenuArrow: typeof import('reka-ui')['ContextMenuArrow']
     ContextMenuCheckboxItem: typeof import('reka-ui')['ContextMenuCheckboxItem']
     ContextMenuContent: typeof import('reka-ui')['ContextMenuContent']
+    ContextMenuGroup: typeof import('reka-ui')['ContextMenuGroup']
     ContextMenuItem: typeof import('reka-ui')['ContextMenuItem']
     ContextMenuItemIndicator: typeof import('reka-ui')['ContextMenuItemIndicator']
     ContextMenuLabel: typeof import('reka-ui')['ContextMenuLabel']

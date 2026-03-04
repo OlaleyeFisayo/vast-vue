@@ -1,9 +1,6 @@
 import {
   resolve,
 } from "node:path";
-import {
-  PrimeVueResolver,
-} from "@primevue/auto-import-resolver";
 import tailwindcss from "@tailwindcss/vite";
 import {
   vastFileExplorer,
@@ -30,7 +27,6 @@ export default defineConfig({
     Components({
       dts: true,
       resolvers: [
-        PrimeVueResolver(),
         RekaResolver(),
       ],
     }),

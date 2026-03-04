@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import type {
-  FileContextMenuRefType,
-} from "../types";
 import {
   queryClient,
 } from "@shared/utils/query-client";
@@ -10,8 +7,6 @@ import {
 } from "@vast/file-explorer";
 import {
   onMounted,
-  ref,
-  watch,
 } from "vue";
 import {
   useFileTree,
@@ -24,7 +19,6 @@ import {
 } from "../variables";
 import CreateFile from "./create-file.vue";
 import CreateFolder from "./create-folder.vue";
-import FileContextMenu from "./file-context-menu.vue";
 import FileEntries from "./file-entries.vue";
 
 const {
@@ -41,8 +35,6 @@ onMounted(() => {
   });
 });
 
-const fileContextMenu = ref<FileContextMenuRefType | null>(null);
-
 function handleClick() {
   fileTreeStore.setSelectedNode(null);
 }
@@ -55,13 +47,6 @@ function shouldShowCreate() {
 
   return createData.node === null || (createData.node.parentPath === rootPath && createData.node.type !== "directory");
 }
-
-watch(
-  fileContextMenu,
-  (value) => {
-    fileTreeStore.setFileContentMenuRef(value);
-  },
-);
 </script>
 
 <template>
@@ -75,9 +60,6 @@ watch(
     <FileEntries :tree-nodes="TreeNodes" />
     <CreateFile
       v-if="shouldShowCreate() && fileTreeStore.createData.type === 'file'"
-    />
-    <FileContextMenu
-      ref="fileContextMenu"
     />
   </section>
 </template>

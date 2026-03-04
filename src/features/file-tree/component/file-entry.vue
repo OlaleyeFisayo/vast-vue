@@ -22,6 +22,7 @@ import {
 import {
   useFileTreeStore,
 } from "../store";
+import FileContextMenu from "./file-context-menu.vue";
 import FileEntryTemplate from "./file-entry-template.vue";
 
 const props = defineProps<{
@@ -117,18 +118,19 @@ function handleDragStart(node: FileTreeNode) {
 </script>
 
 <template>
-  <FileEntryTemplate
-    ref="dropZoneRef"
-    :node="node"
-    :draggable="true"
-    @dragstart="handleDragStart(node)"
-    @click.stop="handleClick(node)"
-    @contextmenu.prevent="fileTreeStore.toggleFileContextMenu($event, node)"
-  >
-    <p
-      class="text-left text-nowrap text-ellipsis overflow-hidden"
+  <FileContextMenu :node="node">
+    <FileEntryTemplate
+      ref="dropZoneRef"
+      :node="node"
+      :draggable="true"
+      @dragstart="handleDragStart(node)"
+      @click.stop="handleClick(node)"
     >
-      {{ node.name }}
-    </p>
-  </FileEntryTemplate>
+      <p
+        class="text-left text-nowrap text-ellipsis overflow-hidden"
+      >
+        {{ node.name }}
+      </p>
+    </FileEntryTemplate>
+  </FileContextMenu>
 </template>

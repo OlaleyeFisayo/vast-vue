@@ -78,7 +78,7 @@ const fileTreeContainerActions = computed(() => [
 </script>
 
 <template>
-  <section class="flex gap-2 justify-between items-center pl-4 pr-2 py-4 border-b border-border">
+  <section class="flex gap-2 text-text-primary justify-between items-center pl-4 pr-2 py-4 border-b border-border">
     <h1 class="text-xl font-bold">
       {{ rootInfo?.basename }}
     </h1>

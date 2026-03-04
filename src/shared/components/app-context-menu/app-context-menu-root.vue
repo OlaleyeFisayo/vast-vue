@@ -3,9 +3,6 @@ import type {
   ContextMenuRootEmits,
   ContextMenuRootProps,
 } from "reka-ui";
-import {
-  ContextMenuRoot,
-} from "reka-ui";
 
 defineProps<ContextMenuRootProps>();
 defineEmits<ContextMenuRootEmits>();
