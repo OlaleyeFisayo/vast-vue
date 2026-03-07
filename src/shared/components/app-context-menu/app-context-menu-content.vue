@@ -11,7 +11,7 @@ defineEmits<ContextMenuContentEmits>();
 <template>
   <ContextMenuContent
     v-bind="$props"
-    class="bg-primary-600 border border-primary-700 rounded-md p-1.5 space-y-1"
+    class="bg-primary-600 border border-primary-700 rounded-md p-1 space-y-1"
   >
     <slot />
   </ContextMenuContent>

@@ -3,9 +3,6 @@ import type {
   FileTreeNode,
 } from "@brickly/file-explorer";
 import {
-  useSearchParams,
-} from "@shared/hooks/use-search-params";
-import {
   useDropZone,
 } from "@vueuse/core";
 import {
@@ -32,7 +29,6 @@ const props = defineProps<{
   node: FileTreeNode;
 }>();
 
-const params = useSearchParams();
 const fileTreeStore = useFileTreeStore();
 const expandDirectory = useExpandDirectory();
 const collapseDirectory = useCollapseDirectory();
@@ -60,9 +56,6 @@ function toggleIcon(node: FileTreeNode) {
 function handleClick(node: FileTreeNode) {
   const newNode = toggleIcon(node);
   fileTreeStore.setSelectedNode(newNode);
-  if (node.type === "file") {
-    params.file = node.absolutePath;
-  }
 }
 // drag and drop of file-entry
 const dropZoneRef = ref<HTMLButtonElement | null>(null);

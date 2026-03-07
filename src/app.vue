@@ -7,13 +7,9 @@ import {
   ActivityBarList,
 } from "@features/activity-bar/variables";
 import Canvas from "@features/canvas/components/canvas.vue";
-import CodeEditor from "@features/code-editor/component/code-editor.vue";
 import {
   useFileTreeStore,
 } from "@features/file-tree/store";
-import {
-  useSearchParams,
-} from "@shared/hooks/use-search-params";
 import {
   computed,
   onMounted,
@@ -22,8 +18,6 @@ import {
 import {
   Toaster,
 } from "vue-sonner";
-
-const params = useSearchParams();
 
 const activityBarStore = useActivitybarStore();
 const fileTreeStore = useFileTreeStore();
@@ -66,7 +60,6 @@ onUnmounted(() => {
         <component :is="cardView" />
       </template>
     </section>
-    <CodeEditor v-show="params.file" />
     <Canvas class="flex-1" />
   </main>
 </template>

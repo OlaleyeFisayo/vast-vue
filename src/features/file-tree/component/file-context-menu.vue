@@ -77,6 +77,12 @@ const relativePath = props.node.key;
         <AppContextMenuItem @click="openInFileManager.mutateAsync(absolutePath)">
           Reveal in File Explorer
         </AppContextMenuItem>
+        <AppContextMenuItem
+          v-if="!isDirectory"
+          @click="openInFileManager.mutateAsync(absolutePath)"
+        >
+          Reveal in IDE
+        </AppContextMenuItem>
 
         <AppContextMenuSeparator />
 
