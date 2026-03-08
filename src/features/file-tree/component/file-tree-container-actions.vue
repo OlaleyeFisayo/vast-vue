@@ -79,7 +79,7 @@ const fileTreeContainerActions = computed(() => [
 
 <template>
   <section class="flex gap-2 text-primary-800 justify-between items-center pl-4 pr-2 py-4 border-b border-primary-700">
-    <h1 class="text-lg">
+    <h1 class="text-lg w-full max-w-[150px] text-nowrap text-ellipsis overflow-hidden">
       {{ rootInfo?.basename }}
     </h1>
     <section class="flex gap-1">

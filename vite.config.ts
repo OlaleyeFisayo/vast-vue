@@ -35,6 +35,7 @@ export default defineConfig({
       ],
     }),
     fileExplorer({
+      hiddenFiles: [".husky", ".git", ".vscode"],
       defaultIde: "vscode",
     }),
   ],

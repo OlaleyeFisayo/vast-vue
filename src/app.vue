@@ -10,6 +10,9 @@ import Canvas from "@features/canvas/components/canvas.vue";
 import {
   useFileTreeStore,
 } from "@features/file-tree/store";
+import AppSplitterGroup from "@shared/components/app-splitter/app-splitter-group.vue";
+import AppSplitterPanel from "@shared/components/app-splitter/app-splitter-panel.vue";
+import AppSplitterResizeHandle from "@shared/components/app-splitter/app-splitter-resize-handle.vue";
 import {
   computed,
   onMounted,
@@ -53,13 +56,41 @@ onUnmounted(() => {
   />
   <main class="w-full h-dvh flex flex-row bg-primary-400">
     <ActivityBarBody />
-    <section class="h-dvh w-67.5! shrink-0 overflow-hidden bg-primary-500 border-r border-primary-700">
+    <AppSplitterGroup
+      id="splitter-main-1"
+      auto-save-id="splitter-main-1"
+      direction="horizontal"
+    >
+      <AppSplitterPanel
+        id="splitter-main-1-panel-1"
+        :min-size="0"
+        :max-size="35"
+        :default-size="20"
+        :collapsible="true"
+        as-child
+      >
+        <template
+          v-if="cardView"
+        >
+          <component :is="cardView" />
+        </template>
+      </AppSplitterPanel>
+      <AppSplitterResizeHandle id="splitter-main-1-resize-handle-1" />
+      <AppSplitterPanel
+        id="splitter-main-1-panel-2"
+        as-child
+        :min-size="65"
+      >
+        <Canvas />
+      </AppSplitterPanel>
+    </AppSplitterGroup>
+    <!-- <section class="h-dvh w-67.5! shrink-0 overflow-hidden bg-primary-500 border-r border-primary-700">
       <template
         v-if="cardView"
       >
         <component :is="cardView" />
       </template>
     </section>
-    <Canvas class="flex-1" />
+    <Canvas class="flex-1" /> -->
   </main>
 </template>
