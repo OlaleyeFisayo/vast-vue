@@ -3,6 +3,6 @@ export const VUE_CONTENT_TREE_API_KEY = {
 };
 
 export const VUE_TREE_STATES = {
-  fileGap: "0.5rem !important",
+  fileGap: "1rem !important",
   iconSize: "1rem !important",
 };
