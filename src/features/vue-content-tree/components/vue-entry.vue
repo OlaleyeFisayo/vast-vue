@@ -12,7 +12,7 @@ const props = defineProps<{
 }>();
 
 const nodeText = computed(() => props.node.type === "element" ? props.node.tag : props.node.content);
-</script> =>
+</script>
 
 <template>
   <VueEntryTemplate :node="node">
