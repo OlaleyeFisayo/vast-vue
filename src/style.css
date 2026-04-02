@@ -1,39 +1,97 @@
 @import "tailwindcss";
 @import "vue-sonner/style.css";
 
+/* Manrope — variable font */
+@font-face {
+  font-family: "Manrope";
+  src: url("/fonts/Manrope/Manrope-VariableFont_wght.ttf") format("truetype");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Inter — variable fonts */
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
-  /* -------------------------------------------------- */
-  /* PRIMARY — Vue green. Use for primary actions,       */
-  /* active states, selected items, and brand moments.  */
-  /* -------------------------------------------------- */
-  --primary-100: #42b883; /* Primary buttons, active tab indicators, toggles on  */
-  --primary-200: #2d8a63; /* Hover/pressed state of primary buttons */
-  --primary-300: #d4f0e5; /* Badges, highlights, success backgrounds */
+  /* Primary colors */
+  --primary-100: #001a40;
+  --primary-200: #002f68;
+  --primary-300: #004492;
+  --primary-400: #005bbf;
+  --primary-500: #2f75dc;
+  --primary-600: #508ff8;
+  --primary-700: #7fabff;
+  --primary-800: #acc7ff;
+  --primary-900: #d7e2ff;
+  --primary-1000: #edf0ff;
 
-  /* -------------------------------------------------- */
-  /* SURFACE — Dark layered backgrounds.                 */
-  /* Use in order of depth: base → raised → overlay.    */
-  /* -------------------------------------------------- */
-  --primary-400: #1a1a1a; /* Root app background, editor backdrop */
-  --primary-500: #242424; /* Sidebars, panels, cards sitting above the base  */
-  --primary-600: #2e2e2e; /* Dropdowns, modals, tooltips, context menus */
+  /* Secondary colors */
+  --secondary-100: #00210a;
+  --secondary-200: #003916;
+  --secondary-300: #005323;
+  --secondary-400: #006d31;
+  --secondary-500: #008a40;
+  --secondary-600: #00a74f;
+  --secondary-700: #2ec364;
+  --secondary-800: #52e07d;
+  --secondary-900: #72fd96;
+  --secondary-1000: #c5ffca;
 
-  /* -------------------------------------------------- */
-  /* BORDER — Use for all edges, dividers, and outlines. */
-  /* -------------------------------------------------- */
-  --primary-700: #3a3a3a; /* Input borders, panel dividers, separator lines */
+  /* Tertiary colors */
+  --tertiary-100: #21005e;
+  --tertiary-200: #381385;
+  --tertiary-300: #4f319c;
+  --tertiary-400: #674bb5;
+  --tertiary-500: #8065d0;
+  --tertiary-600: #9b7fed;
+  --tertiary-700: #b59cff;
+  --tertiary-800: #cebdff;
+  --tertiary-900: #e8ddff;
+  --tertiary-1000: #f5eeff;
 
-  /* -------------------------------------------------- */
-  /* TEXT — Typography hierarchy.                        */
-  /* -------------------------------------------------- */
-  --primary-800: #e8e8f0; /* All main readable text */
-  --primary-900: #8896a0; /* Secondary labels, placeholders, icon-only labels */
+  /* Neutral colors */
+  --neutal: #000000;
+  --neutral-100: #1a1c20;
+  --neutral-200: #2f3035;
+  --neutral-300: #45474b;
+  --neutral-400: #5d5e63;
+  --neutral-500: #76777c;
+  --neutral-600: #8f9096;
+  --neutral-700: #aaabb0;
+  --neutral-800: #c6c6cc;
+  --neutral-900: #e2e2e8;
+  --neutral-950: #f0f0f6;
+  --neutral-1000: #ffffff;
+}
 
-  /* -------------------------------------------------- */
-  /* ACCENT — Vue dark blue-grey (from Vue's logo).      */
-  /* Use for links, focus rings, and info states.        */
-  /* -------------------------------------------------- */
-  --primary-1000: #35495e; /* Links, focus rings, info badges, keyboard shortcuts */
+[data-theme="light"] {
+  --neutal: #ffffff;
+  --neutral-100: #f0f0f6;
+  --neutral-200: #e2e2e8;
+  --neutral-300: #c6c6cc;
+  --neutral-400: #aaabb0;
+  --neutral-500: #8f9096;
+  --neutral-600: #76777c;
+  --neutral-700: #5d5e63;
+  --neutral-800: #45474b;
+  --neutral-900: #2f3035;
+  --neutral-950: #1a1c20;
+  --neutral-1000: #000000;
 }
 
 @theme {
@@ -47,19 +105,42 @@
   --color-primary-800: var(--primary-800);
   --color-primary-900: var(--primary-900);
   --color-primary-1000: var(--primary-1000);
-}
 
-::-webkit-scrollbar {
-  background: inherit;
-  scrollbar-width: thin;
-}
+  --color-secondary-100: var(--secondary-100);
+  --color-secondary-200: var(--secondary-200);
+  --color-secondary-300: var(--secondary-300);
+  --color-secondary-400: var(--secondary-400);
+  --color-secondary-500: var(--secondary-500);
+  --color-secondary-600: var(--secondary-600);
+  --color-secondary-700: var(--secondary-700);
+  --color-secondary-800: var(--secondary-800);
+  --color-secondary-900: var(--secondary-900);
+  --color-secondary-1000: var(--secondary-1000);
 
-::-webkit-scrollbar-track {
-  background: inherit;
-}
+  --color-tertiary-100: var(--tertiary-100);
+  --color-tertiary-200: var(--tertiary-200);
+  --color-tertiary-300: var(--tertiary-300);
+  --color-tertiary-400: var(--tertiary-400);
+  --color-tertiary-500: var(--tertiary-500);
+  --color-tertiary-600: var(--tertiary-600);
+  --color-tertiary-700: var(--tertiary-700);
+  --color-tertiary-800: var(--tertiary-800);
+  --color-tertiary-900: var(--tertiary-900);
+  --color-tertiary-1000: var(--tertiary-1000);
 
-::-webkit-scrollbar-thumb {
-  background: var(--primary-700);
-  width: 5px;
-  border-radius: 50px;
+  --color-neutral: var(--neutral);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+  --color-neutral-950: var(--neutral-950);
+  --color-neutral-1000: var(--neutral-1000);
+
+  --font-manrope: "Manrope", sans-serif;
+  --font-inter: "Inter", sans-serif;
 }
