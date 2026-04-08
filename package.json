@@ -29,7 +29,7 @@
     "@brickly/parser": "file:brickly-parser-1.0.0.tgz",
     "@tailwindcss/vite": "^4.2.2",
     "@tanstack/vue-query": "^5.96.2",
-    "@vueuse/core": "^14.2.0",
+    "@vueuse/core": "^14.2.1",
     "axios": "^1.13.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

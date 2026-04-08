@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import Header from "@features/header/components/header.vue";
 import {
   Toaster,
-} from "./shared/components/ui/sonner";
+} from "@shared/components/ui/sonner";
 </script>
 
 <template>
@@ -9,7 +10,7 @@ import {
     rich-colors
     theme="dark"
   />
-  <main class="w-full">
-    testing
+  <main class="w-full h-dvh text-primary-300">
+    <Header />
   </main>
 </template>
