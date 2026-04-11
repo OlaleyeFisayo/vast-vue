@@ -1,5 +1,7 @@
 import {
   collapseDirectory,
+  createFile,
+  createFolder,
   expandDirectory,
   getFileTree,
   getRootInfo,
@@ -56,5 +58,25 @@ export function useExpandDirectory() {
         data,
       );
     },
+  });
+}
+
+export function useCreateFile() {
+  return useMutation({
+    mutationFn: (payload: { name: string; dirPath?: string }) =>
+      createFile(
+        payload.name,
+        payload.dirPath,
+      ),
+  });
+}
+
+export function useCreateFolder() {
+  return useMutation({
+    mutationFn: (payload: { name: string; dirPath?: string }) =>
+      createFolder(
+        payload.name,
+        payload.dirPath,
+      ),
   });
 }

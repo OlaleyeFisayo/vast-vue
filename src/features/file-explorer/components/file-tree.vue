@@ -15,6 +15,9 @@ import {
   fileTreeNodesQueryOptions,
   rootInfoQueryOptions,
 } from "../api";
+import {
+  useFileExplorerStore,
+} from "../store";
 import FileTreeActions from "./file-tree-actions.vue";
 import FileTreeNodes from "./file-tree-nodes.vue";
 
@@ -27,6 +30,8 @@ const {
   refetch: getFileTreeNodes,
 } = useQuery(fileTreeNodesQueryOptions());
 
+const fileExplorerStore = useFileExplorerStore();
+
 onMounted(() => {
   onFileTreeUpdate(async () => {
     await getFileTreeNodes();
@@ -35,7 +40,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="bg-background-100 w-65 py-3 flex flex-col gap-2 h-full">
+  <section
+    class="bg-background-100 w-65 py-3 flex flex-col gap-2 h-full"
+    @click="fileExplorerStore.clearSelectedNodes()"
+  >
     <header class="flex items-center justify-between px-4">
       <h1 class="uppercase text-primary-300 text-xs">
         {{ rootInfo?.basename }}
