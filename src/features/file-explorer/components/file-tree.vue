@@ -42,10 +42,10 @@ onMounted(() => {
 
 <template>
   <section
-    class="bg-background-100 w-65 py-3 flex flex-col gap-2 h-full"
+    class="w-full flex flex-col gap-2 h-full"
     @click="fileExplorerStore.clearSelectedNodes()"
   >
-    <header class="flex items-center justify-between px-4">
+    <header class="flex items-center justify-between">
       <h1 class="uppercase text-primary-300 text-xs">
         {{ rootInfo?.basename }}
       </h1>
@@ -53,7 +53,7 @@ onMounted(() => {
     </header>
     <template v-if="rootInfo">
       <RootContextMenu :root-path="rootInfo.rootPath">
-        <ScrollArea class="w-full overflow-x-hidden pl-4 flex-1">
+        <ScrollArea class="w-full overflow-x-hidden flex-1">
           <FileTreeNodes :file-tree-nodes="fileTreeNodes" />
         </ScrollArea>
       </RootContextMenu>

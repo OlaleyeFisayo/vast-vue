@@ -2,8 +2,8 @@
 import {
   Toaster,
 } from "@shared/components/ui/sonner";
-import FileTree from "@/features/file-explorer/components/file-tree.vue";
 import Header from "@/features/header/components/header.vue";
+import PanelContent from "@/features/panel-menu/components/panel-content.vue";
 import PanelMenu from "@/features/panel-menu/components/panel-menu.vue";
 </script>
 
@@ -16,7 +16,7 @@ import PanelMenu from "@/features/panel-menu/components/panel-menu.vue";
     <Header />
     <section class="flex flex-1 overflow-hidden">
       <PanelMenu />
-      <FileTree />
+      <PanelContent />
     </section>
   </main>
 </template>
