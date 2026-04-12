@@ -3,6 +3,9 @@ import type {
   FileTreeNode,
 } from "@brickly/file-explorer";
 import {
+  computed,
+} from "vue";
+import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
@@ -10,10 +13,11 @@ import {
   ContextMenuTrigger,
 } from "@/shared/components/ui/context-menu";
 import {
-  useCopyItem,
+  useCopyItems,
   useDeleteItem,
+  useDeleteItems,
   useExpandDirectory,
-  useMoveItem,
+  useMoveItems,
   useOpenInFileManager,
   useOpenInIde,
 } from "../api";
@@ -35,17 +39,25 @@ const {
   mutateAsync: deleteItem,
 } = useDeleteItem();
 const {
+  mutateAsync: deleteItems,
+} = useDeleteItems();
+const {
   mutateAsync: openInFileManager,
 } = useOpenInFileManager();
 const {
   mutateAsync: openInIde,
 } = useOpenInIde();
 const {
-  mutateAsync: copyItem,
-} = useCopyItem();
+  mutateAsync: copyItems,
+} = useCopyItems();
 const {
-  mutateAsync: moveItem,
-} = useMoveItem();
+  mutateAsync: moveItems,
+} = useMoveItems();
+
+const isMultiSelectMode = computed(() => {
+  const selected = fileExplorerStore.selectedNodes;
+  return selected.length > 1 && selected.some(n => n.key === props.node.key);
+});
 
 function getPasteDestination(): string | undefined {
   if (props.node.type === "directory")
@@ -54,11 +66,11 @@ function getPasteDestination(): string | undefined {
 }
 
 function cutNode() {
-  fileExplorerStore.setCut(props.node);
+  fileExplorerStore.setCut(isMultiSelectMode.value ? fileExplorerStore.selectedNodes : [props.node]);
 }
 
 function copyNode() {
-  fileExplorerStore.setCopy(props.node);
+  fileExplorerStore.setCopy(isMultiSelectMode.value ? fileExplorerStore.selectedNodes : [props.node]);
 }
 
 async function pasteNode() {
@@ -66,18 +78,16 @@ async function pasteNode() {
   if (!cb)
     return;
   const dest = getPasteDestination();
+  const items = cb.nodes.map(n => ({
+    sourcePath: n.absolutePath,
+    destinationDir: dest,
+  }));
 
   if (cb.operation === "copy") {
-    await copyItem({
-      sourcePath: cb.node.absolutePath,
-      destinationDir: dest,
-    });
+    await copyItems(items);
   }
   else {
-    await moveItem({
-      sourcePath: cb.node.absolutePath,
-      destinationDir: dest,
-    });
+    await moveItems(items);
     fileExplorerStore.clearClipboard();
   }
 
@@ -122,7 +132,12 @@ async function revealInIde() {
 }
 
 async function deleteNode() {
-  await deleteItem(props.node.absolutePath);
+  if (isMultiSelectMode.value) {
+    await deleteItems(fileExplorerStore.selectedNodes.map(n => n.absolutePath));
+  }
+  else {
+    await deleteItem(props.node.absolutePath);
+  }
 }
 </script>
 
@@ -132,25 +147,24 @@ async function deleteNode() {
       <slot />
     </ContextMenuTrigger>
     <ContextMenuContent @close-auto-focus.prevent>
-      <template v-if="isDirectory">
-        <ContextMenuItem @click="startCreatingFile">
-          New File...
+      <template v-if="!isMultiSelectMode">
+        <template v-if="isDirectory">
+          <ContextMenuItem @click="startCreatingFile">
+            New File...
+          </ContextMenuItem>
+          <ContextMenuItem @click="startCreatingFolder">
+            New Folder...
+          </ContextMenuItem>
+          <ContextMenuSeparator />
+        </template>
+        <ContextMenuItem @click="revealInFileExplorer">
+          Reveal in File Explorer
         </ContextMenuItem>
-        <ContextMenuItem @click="startCreatingFolder">
-          New Folder...
+        <ContextMenuItem @click="revealInIde">
+          Reveal in IDE
         </ContextMenuItem>
         <ContextMenuSeparator />
       </template>
-      <ContextMenuItem @click="revealInFileExplorer">
-        Reveal in File Explorer
-      </ContextMenuItem>
-      <ContextMenuItem
-        v-if="isDirectory"
-        @click="revealInIde"
-      >
-        Reveal in IDE
-      </ContextMenuItem>
-      <ContextMenuSeparator />
       <ContextMenuItem @click="cutNode">
         Cut
       </ContextMenuItem>
@@ -164,7 +178,10 @@ async function deleteNode() {
         Paste
       </ContextMenuItem>
       <ContextMenuSeparator />
-      <ContextMenuItem @click="fileExplorerStore.startRenaming(props.node.absolutePath)">
+      <ContextMenuItem
+        v-if="!isMultiSelectMode"
+        @click="fileExplorerStore.startRenaming(props.node.absolutePath)"
+      >
         Rename
       </ContextMenuItem>
       <ContextMenuItem

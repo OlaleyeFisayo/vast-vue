@@ -25,7 +25,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@brickly/file-explorer": "^1.1.1",
+    "@brickly/file-explorer": "^1.1.2",
     "@brickly/parser": "file:brickly-parser-1.0.0.tgz",
     "@tailwindcss/vite": "^4.2.2",
     "@tanstack/vue-query": "^5.96.2",

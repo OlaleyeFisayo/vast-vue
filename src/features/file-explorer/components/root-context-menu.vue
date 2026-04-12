@@ -7,8 +7,8 @@ import {
   ContextMenuTrigger,
 } from "@/shared/components/ui/context-menu";
 import {
-  useCopyItem,
-  useMoveItem,
+  useCopyItems,
+  useMoveItems,
   useOpenInFileManager,
   useOpenInIde,
 } from "../api";
@@ -28,28 +28,27 @@ const {
   mutateAsync: openInIde,
 } = useOpenInIde();
 const {
-  mutateAsync: copyItem,
-} = useCopyItem();
+  mutateAsync: copyItems,
+} = useCopyItems();
 const {
-  mutateAsync: moveItem,
-} = useMoveItem();
+  mutateAsync: moveItems,
+} = useMoveItems();
 
 async function pasteNode() {
   const cb = fileExplorerStore.clipboard;
   if (!cb)
     return;
 
+  const items = cb.nodes.map(n => ({
+    sourcePath: n.absolutePath,
+    destinationDir: props.rootPath,
+  }));
+
   if (cb.operation === "copy") {
-    await copyItem({
-      sourcePath: cb.node.absolutePath,
-      destinationDir: props.rootPath,
-    });
+    await copyItems(items);
   }
   else {
-    await moveItem({
-      sourcePath: cb.node.absolutePath,
-      destinationDir: props.rootPath,
-    });
+    await moveItems(items);
     fileExplorerStore.clearClipboard();
   }
 }

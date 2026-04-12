@@ -1,13 +1,16 @@
 import {
   collapseDirectory,
   copy,
+  copyItems,
   createFile,
   createFolder,
   deleteItem,
+  deleteItems,
   expandDirectory,
   getFileTree,
   getRootInfo,
   move,
+  moveItems,
   openInFileManager,
   openInIde,
   rename,
@@ -90,6 +93,24 @@ export function useCreateFolder() {
 export function useDeleteItem() {
   return useMutation({
     mutationFn: (path: string) => deleteItem(path),
+  });
+}
+
+export function useDeleteItems() {
+  return useMutation({
+    mutationFn: (paths: string[]) => deleteItems(paths),
+  });
+}
+
+export function useCopyItems() {
+  return useMutation({
+    mutationFn: (items: { sourcePath: string; destinationDir?: string }[]) => copyItems(items),
+  });
+}
+
+export function useMoveItems() {
+  return useMutation({
+    mutationFn: (items: { sourcePath: string; destinationDir?: string }[]) => moveItems(items),
   });
 }
 

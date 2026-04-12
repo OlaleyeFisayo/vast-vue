@@ -54,17 +54,17 @@ export const useFileExplorerStore = defineStore(
     }
 
     // Clipboard
-    const clipboard = ref<{ operation: "cut" | "copy"; node: FileTreeNode } | null>(null);
-    function setCut(node: FileTreeNode) {
+    const clipboard = ref<{ operation: "cut" | "copy"; nodes: FileTreeNode[] } | null>(null);
+    function setCut(nodes: FileTreeNode[]) {
       clipboard.value = {
         operation: "cut",
-        node,
+        nodes,
       };
     }
-    function setCopy(node: FileTreeNode) {
+    function setCopy(nodes: FileTreeNode[]) {
       clipboard.value = {
         operation: "copy",
-        node,
+        nodes,
       };
     }
     function clearClipboard() {
