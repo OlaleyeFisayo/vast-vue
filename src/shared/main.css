@@ -42,6 +42,7 @@
   --primary-300: #aaabb0;
   --primary-400: #1d2025;
   --primary-500: #eab308;
+  --canvas-dot: #2a2d35;
 
   --radius: 0.625rem;
   --foreground: var(--white);

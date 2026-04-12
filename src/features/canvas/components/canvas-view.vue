@@ -45,7 +45,7 @@ const {
 <style scoped>
 .canvas-bg {
   background-color: var(--background);
-  background-image: radial-gradient(circle, #2a2d35 1px, transparent 1px);
+  background-image: radial-gradient(circle, var(--canvas-dot) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 </style>
