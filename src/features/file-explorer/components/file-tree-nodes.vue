@@ -11,12 +11,14 @@ import {
 import {
   useCollapseDirectory,
   useExpandDirectory,
+  useRenameItem,
 } from "../api";
 import {
   useFileExplorerStore,
 } from "../store";
 import CreateFile from "./create-file.vue";
 import CreateFolder from "./create-folder.vue";
+import FileTreeNodeInput from "./file-tree-node-input.vue";
 import FileTreeNodeName from "./file-tree-node-name.vue";
 import FileTreeNodeTemplate from "./file-tree-node-template.vue";
 import NodeContextMenu from "./node-context-menu.vue";
@@ -35,6 +37,7 @@ const props = withDefaults(
 const fileExplorerStore = useFileExplorerStore();
 const {
   creating,
+  renaming,
 } = storeToRefs(fileExplorerStore);
 
 const dirNodes = computed(() => props.fileTreeNodes.filter(n => n.type === "directory"));
@@ -46,6 +49,9 @@ const {
 const {
   mutateAsync: expandDirectory,
 } = useExpandDirectory();
+const {
+  mutateAsync: renameItem,
+} = useRenameItem();
 
 function setSelectedNode(
   node: FileTreeNode,
@@ -80,6 +86,17 @@ async function handleNodeClick(
     event,
   );
 }
+
+async function handleRename(
+  node: FileTreeNode,
+  newName: string,
+) {
+  await renameItem({
+    path: node.absolutePath,
+    newName,
+  });
+  fileExplorerStore.stopRenaming();
+}
 </script>
 
 <template>
@@ -93,7 +110,16 @@ async function handleNodeClick(
         :node="node"
         @click.stop="handleNodeClick(node, $event)"
       >
-        <FileTreeNodeName :name="node.name" />
+        <FileTreeNodeName
+          v-if="renaming !== node.absolutePath"
+          :name="node.name"
+        />
+        <FileTreeNodeInput
+          v-else
+          :initial-value="node.name"
+          :on-blur="fileExplorerStore.stopRenaming"
+          @submit="handleRename(node, $event)"
+        />
       </FileTreeNodeTemplate>
     </NodeContextMenu>
     <div
@@ -116,7 +142,16 @@ async function handleNodeClick(
         :node="node"
         @click.stop="handleNodeClick(node, $event)"
       >
-        <FileTreeNodeName :name="node.name" />
+        <FileTreeNodeName
+          v-if="renaming !== node.absolutePath"
+          :name="node.name"
+        />
+        <FileTreeNodeInput
+          v-else
+          :initial-value="node.name"
+          :on-blur="fileExplorerStore.stopRenaming"
+          @submit="handleRename(node, $event)"
+        />
       </FileTreeNodeTemplate>
     </NodeContextMenu>
   </div>

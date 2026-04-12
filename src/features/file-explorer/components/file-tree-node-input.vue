@@ -7,6 +7,17 @@ import {
   useFileExplorerStore,
 } from "../store";
 
+const props = withDefaults(
+  defineProps<{
+    initialValue?: string;
+    onBlur?: () => void;
+  }>(),
+  {
+    initialValue: "",
+    onBlur: undefined,
+  },
+);
+
 const emit = defineEmits<{
   submit: [value: string];
 }>();
@@ -15,7 +26,11 @@ const fileExplorerStore = useFileExplorerStore();
 const inputRef = ref<HTMLInputElement | null>(null);
 
 onMounted(() => {
-  inputRef.value?.focus();
+  if (inputRef.value) {
+    inputRef.value.value = props.initialValue;
+    inputRef.value.focus();
+    inputRef.value.select();
+  }
 });
 
 function handleEnter() {
@@ -27,6 +42,15 @@ function handleEnter() {
     );
   }
 }
+
+function handleBlur() {
+  if (props.onBlur) {
+    props.onBlur();
+  }
+  else {
+    fileExplorerStore.stopCreating();
+  }
+}
 </script>
 
 <template>
@@ -34,7 +58,7 @@ function handleEnter() {
     ref="inputRef"
     type="text"
     class="focus:border-2 outline-none text-sm w-full"
-    @blur="fileExplorerStore.stopCreating()"
+    @blur="handleBlur"
     @keydown.esc="inputRef?.blur()"
     @keydown.enter="handleEnter"
   >

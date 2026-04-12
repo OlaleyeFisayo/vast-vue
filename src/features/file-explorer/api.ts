@@ -8,6 +8,7 @@ import {
   getRootInfo,
   openInFileManager,
   openInIde,
+  rename,
 } from "@brickly/file-explorer";
 import {
   queryOptions,
@@ -99,5 +100,15 @@ export function useOpenInFileManager() {
 export function useOpenInIde() {
   return useMutation({
     mutationFn: (path: string) => openInIde(path),
+  });
+}
+
+export function useRenameItem() {
+  return useMutation({
+    mutationFn: (payload: { path: string; newName: string }) =>
+      rename(
+        payload.path,
+        payload.newName,
+      ),
   });
 }

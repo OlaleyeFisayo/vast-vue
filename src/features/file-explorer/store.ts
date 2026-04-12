@@ -11,8 +11,8 @@ import {
 export const useFileExplorerStore = defineStore(
   "file-explorer",
   () => {
+    // Selected node`
     const selectedNodes = ref<FileTreeNode[]>([]);
-    const creating = ref<{ type: FileTreeNode["type"]; parentPath: string | null } | null>(null);
     function setSelectedNode(node: FileTreeNode) {
       selectedNodes.value = [node];
     }
@@ -25,6 +25,9 @@ export const useFileExplorerStore = defineStore(
         selectedNodes.value = selectedNodes.value.filter(n => n.key !== node.key);
       }
     }
+
+    // Creating Mode
+    const creating = ref<{ type: FileTreeNode["type"]; parentPath: string | null } | null>(null);
     function startCreating(
       type: FileTreeNode["type"],
       parentPath: string | null = null,
@@ -37,19 +40,30 @@ export const useFileExplorerStore = defineStore(
     function clearSelectedNodes() {
       selectedNodes.value = [];
     }
-
     function stopCreating() {
       creating.value = null;
+    }
+
+    // Renaming Mode
+    const renaming = ref<string | null>(null);
+    function startRenaming(nodePath: string) {
+      renaming.value = nodePath;
+    }
+    function stopRenaming() {
+      renaming.value = null;
     }
 
     return {
       selectedNodes,
       creating,
+      renaming,
       setSelectedNode,
       toggleSelectedNode,
       clearSelectedNodes,
       startCreating,
       stopCreating,
+      startRenaming,
+      stopRenaming,
     };
   },
   {

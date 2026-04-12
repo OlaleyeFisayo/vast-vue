@@ -105,7 +105,9 @@ async function deleteNode() {
       <ContextMenuItem>Copy</ContextMenuItem>
       <ContextMenuItem>Paste</ContextMenuItem>
       <ContextMenuSeparator />
-      <ContextMenuItem>Rename</ContextMenuItem>
+      <ContextMenuItem @click="fileExplorerStore.startRenaming(props.node.absolutePath)">
+        Rename
+      </ContextMenuItem>
       <ContextMenuItem
         class="hover:bg-red-700! hover:text-white!"
         @click="deleteNode"
