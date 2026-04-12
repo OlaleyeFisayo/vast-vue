@@ -17,6 +17,7 @@ import {
 const FileExplorerView = defineAsyncComponent(() => import("@/features/file-explorer/view/file-explorer-view.vue"));
 const SearchPanel = defineAsyncComponent(() => import("@/features/search/view/search-panel.vue"));
 const ComponentsPanel = defineAsyncComponent(() => import("@/features/app-components/view/components-panel.vue"));
+const CanvasPanel = defineAsyncComponent(() => import("@/features/canvas/view/canvas-panel.vue"));
 
 const {
   activePanel,
@@ -39,6 +40,11 @@ const {
       <ComponentsPanel v-else-if="activePanel === 'components'" />
     </ResizablePanel>
     <ResizableHandle />
-    <ResizablePanel :default-size="65" />
+    <ResizablePanel
+      :default-size="65"
+      class="overflow-hidden"
+    >
+      <CanvasPanel />
+    </ResizablePanel>
   </ResizablePanelGroup>
 </template>
