@@ -53,10 +53,29 @@ export const useFileExplorerStore = defineStore(
       renaming.value = null;
     }
 
+    // Clipboard
+    const clipboard = ref<{ operation: "cut" | "copy"; node: FileTreeNode } | null>(null);
+    function setCut(node: FileTreeNode) {
+      clipboard.value = {
+        operation: "cut",
+        node,
+      };
+    }
+    function setCopy(node: FileTreeNode) {
+      clipboard.value = {
+        operation: "copy",
+        node,
+      };
+    }
+    function clearClipboard() {
+      clipboard.value = null;
+    }
+
     return {
       selectedNodes,
       creating,
       renaming,
+      clipboard,
       setSelectedNode,
       toggleSelectedNode,
       clearSelectedNodes,
@@ -64,6 +83,9 @@ export const useFileExplorerStore = defineStore(
       stopCreating,
       startRenaming,
       stopRenaming,
+      setCut,
+      setCopy,
+      clearClipboard,
     };
   },
   {

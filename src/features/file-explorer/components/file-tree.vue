@@ -20,6 +20,7 @@ import {
 } from "../store";
 import FileTreeActions from "./file-tree-actions.vue";
 import FileTreeNodes from "./file-tree-nodes.vue";
+import RootContextMenu from "./root-context-menu.vue";
 
 const {
   data: rootInfo,
@@ -50,8 +51,12 @@ onMounted(() => {
       </h1>
       <FileTreeActions />
     </header>
-    <ScrollArea class="w-full overflow-x-hidden pl-4">
-      <FileTreeNodes :file-tree-nodes="fileTreeNodes" />
-    </ScrollArea>
+    <template v-if="rootInfo">
+      <RootContextMenu :root-path="rootInfo.rootPath">
+        <ScrollArea class="w-full overflow-x-hidden pl-4 flex-1">
+          <FileTreeNodes :file-tree-nodes="fileTreeNodes" />
+        </ScrollArea>
+      </RootContextMenu>
+    </template>
   </section>
 </template>

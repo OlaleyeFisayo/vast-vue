@@ -1,11 +1,13 @@
 import {
   collapseDirectory,
+  copy,
   createFile,
   createFolder,
   deleteItem,
   expandDirectory,
   getFileTree,
   getRootInfo,
+  move,
   openInFileManager,
   openInIde,
   rename,
@@ -109,6 +111,26 @@ export function useRenameItem() {
       rename(
         payload.path,
         payload.newName,
+      ),
+  });
+}
+
+export function useCopyItem() {
+  return useMutation({
+    mutationFn: (payload: { sourcePath: string; destinationDir?: string }) =>
+      copy(
+        payload.sourcePath,
+        payload.destinationDir,
+      ),
+  });
+}
+
+export function useMoveItem() {
+  return useMutation({
+    mutationFn: (payload: { sourcePath: string; destinationDir?: string }) =>
+      move(
+        payload.sourcePath,
+        payload.destinationDir,
       ),
   });
 }
