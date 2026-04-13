@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "@brickly/file-explorer": "^1.1.2",
-    "@brickly/parser": "../brickly-parser/brickly-parser-1.0.0.tgz",
     "@tailwindcss/vite": "^4.2.2",
     "@tanstack/vue-query": "^5.96.2",
     "@vueuse/core": "^14.2.1",

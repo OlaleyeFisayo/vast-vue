@@ -3,6 +3,9 @@ import type {
   FileTreeNode,
 } from "@brickly/file-explorer";
 import {
+  useCanvasNodesStore,
+} from "@features/canvas/nodes-store";
+import {
   storeToRefs,
 } from "pinia";
 import {
@@ -35,6 +38,7 @@ const props = withDefaults(
 );
 
 const fileExplorerStore = useFileExplorerStore();
+const canvasNodesStore = useCanvasNodesStore();
 const {
   creating,
   renaming,
@@ -85,6 +89,15 @@ async function handleNodeClick(
     node,
     event,
   );
+}
+
+function handleDoubleClick(node: FileTreeNode) {
+  if (node.type === "file" && node.extension === "vue") {
+    canvasNodesStore.addNode(
+      node.absolutePath,
+      node.key,
+    );
+  }
 }
 
 async function handleRename(
@@ -141,6 +154,7 @@ async function handleRename(
       <FileTreeNodeTemplate
         :node="node"
         @click.stop="handleNodeClick(node, $event)"
+        @dblclick.stop="handleDoubleClick(node)"
       >
         <FileTreeNodeName
           v-if="renaming !== node.absolutePath"

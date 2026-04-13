@@ -34,4 +34,18 @@ export default defineConfig({
       hiddenFiles: [".husky", ".git", ".vscode"],
     }),
   ],
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(
+          __dirname,
+          "index.html",
+        ),
+        preview: resolve(
+          __dirname,
+          "preview.html",
+        ),
+      },
+    },
+  },
 });

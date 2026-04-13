@@ -6,6 +6,9 @@ import {
   computed,
 } from "vue";
 import {
+  useCanvasNodesStore,
+} from "@/features/canvas/nodes-store";
+import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
@@ -30,8 +33,10 @@ const props = defineProps<{
 }>();
 
 const isDirectory = props.node.type === "directory";
+const isVueFile = !isDirectory && props.node.absolutePath.endsWith(".vue");
 
 const fileExplorerStore = useFileExplorerStore();
+const canvasNodesStore = useCanvasNodesStore();
 const {
   mutateAsync: expandDirectory,
 } = useExpandDirectory();
@@ -148,6 +153,12 @@ async function deleteNode() {
     </ContextMenuTrigger>
     <ContextMenuContent @close-auto-focus.prevent>
       <template v-if="!isMultiSelectMode">
+        <template v-if="isVueFile">
+          <ContextMenuItem @click="canvasNodesStore.addNode(node.absolutePath, node.key)">
+            Open Preview
+          </ContextMenuItem>
+          <ContextMenuSeparator />
+        </template>
         <template v-if="isDirectory">
           <ContextMenuItem @click="startCreatingFile">
             New File...

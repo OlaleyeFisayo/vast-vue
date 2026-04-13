@@ -13,7 +13,8 @@ import {
   ZOOM_MIN,
 } from "../store";
 
-const WHEEL_ZOOM_STEP = 0.05;
+const WHEEL_ZOOM_STEP = 0.02;
+const WHEEL_PAN_FACTOR = 0.4;
 
 function clamp(
   value: number,
@@ -86,18 +87,28 @@ export function useCanvasInteraction(containerRef: Ref<HTMLElement | null>) {
   );
 
   useEventListener(
-    containerRef,
+    window,
     "wheel",
     (event: WheelEvent) => {
-      event.preventDefault();
-
       const container = containerRef.value;
       if (!container)
         return;
 
+      // Only handle wheel events when the cursor is within the canvas container
+      const rect = container.getBoundingClientRect();
+      if (
+        event.clientX < rect.left
+        || event.clientX > rect.right
+        || event.clientY < rect.top
+        || event.clientY > rect.bottom
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+
       if (event.ctrlKey || event.metaKey) {
         // Ctrl/Cmd + scroll → zoom toward cursor
-        const rect = container.getBoundingClientRect();
         const cursorX = event.clientX - rect.left;
         const cursorY = event.clientY - rect.top;
 
@@ -119,8 +130,8 @@ export function useCanvasInteraction(containerRef: Ref<HTMLElement | null>) {
       }
       else {
         // Plain scroll → pan (Shift+scroll pans horizontally)
-        const dx = event.shiftKey ? -event.deltaY : -event.deltaX;
-        const dy = event.shiftKey ? 0 : -event.deltaY;
+        const dx = event.shiftKey ? -event.deltaY * WHEEL_PAN_FACTOR : -event.deltaX * WHEEL_PAN_FACTOR;
+        const dy = event.shiftKey ? 0 : -event.deltaY * WHEEL_PAN_FACTOR;
 
         store.setTransform(
           store.translateX + dx,
